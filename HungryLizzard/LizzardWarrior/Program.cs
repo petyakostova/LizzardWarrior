@@ -9,5 +9,6 @@ class Program
     static void Main()
     {
         Console.WriteLine("Test Commit");
+        Console.WriteLine("We are the champions");
     }
 }

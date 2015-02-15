@@ -16,6 +16,7 @@ namespace MaffeluDemo
 
         static void Main(string[] args)
         {
+            
             InitGame();
 
             ConsoleKeyInfo keyInfo;
@@ -24,12 +25,13 @@ namespace MaffeluDemo
                 switch (keyInfo.Key)
                 {
                     case ConsoleKey.RightArrow:
-                        MoveHero(1, 0);
+                        MoveHero(Console.WindowWidth/10, 0);
                         break;
 
                     case ConsoleKey.LeftArrow:
-                        MoveHero(-1, 0);
+                        MoveHero(-(Console.WindowWidth/10), 0);
                         break;
+                        
                 }
 
             }
@@ -48,12 +50,14 @@ namespace MaffeluDemo
 
             if (CanMove(newHero))
             {
+                
                 RemoveHero();
-
+                Console.Clear();
                 Console.BackgroundColor = HERO_COLOR;
                 Console.SetCursorPosition(newHero.X, newHero.Y);
-                //Console.Clear();
-                Console.Write(" ");
+                Console.Write("\\  /\n");
+                Console.SetCursorPosition(newHero.X, newHero.Y+1);
+                Console.Write("****");
 
                 Hero = newHero;
             }
@@ -75,7 +79,7 @@ namespace MaffeluDemo
         /// </summary>
         static bool CanMove(Coordinate c)
         {
-            if (c.X < 0 || c.X >= Console.WindowWidth)
+            if (c.X < 0 || c.X >= Console.WindowWidth-3)
                 return false;
 
             if (c.Y < 0 || c.Y >= Console.WindowHeight)

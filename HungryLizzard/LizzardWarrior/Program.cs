@@ -135,20 +135,48 @@ namespace HungryLizard
             Console.CursorVisible = false;
         }
         //Main
+        enum FlyTypes
+        {
+            tinyFly,
+            HorseFly,
+            Cece
+        }
         static void Main(string[] args) 
         {
             InitConsole();
             InitGame();
+            int playerFieldWidth = 90;
 
             Random randomGenerator = new Random();
             List<Fly> flies = new List<Fly>();
             while (true)
             {
                 Fly newRandomFly = new Fly();
-                newRandomFly.color = ConsoleColor.Red;
-                newRandomFly.X = randomGenerator.Next(0, 89);
+                newRandomFly.X = randomGenerator.Next(1, playerFieldWidth);
                 newRandomFly.Y = 1;
                 newRandomFly.symbol = '%';
+                int flyType = randomGenerator.Next(0, 3);
+                switch (flyType)
+                {
+                    case 0:
+                        newRandomFly.symbol = '%';
+                        newRandomFly.color = ConsoleColor.Red;
+                        newRandomFly.points = 10;
+                        break;
+                    case 1:
+                        newRandomFly.symbol = '$';
+                        newRandomFly.color = ConsoleColor.Blue;
+                        newRandomFly.points = 20;
+                        break;
+                    case 2:
+                        newRandomFly.symbol = '#';
+                        newRandomFly.color = ConsoleColor.DarkGreen;
+                        newRandomFly.points = 10;
+                        break;
+                    default:
+                        break;
+                }
+
                 flies.Add(newRandomFly);
 
                 if (Console.KeyAvailable)
@@ -174,6 +202,7 @@ namespace HungryLizard
                     newFly.Y = oldFly.Y + 1;
                     newFly.color = oldFly.color;
                     newFly.symbol = oldFly.symbol;
+                    newFly.points = oldFly.points;
                     if (newFly.Y < Console.WindowHeight - 3)
                     {
                         newFlies.Add(newFly);
@@ -188,7 +217,7 @@ namespace HungryLizard
                     PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
                 // DrawGrid();
-                Thread.Sleep(150);
+                Thread.Sleep(200);
             }
         }
 

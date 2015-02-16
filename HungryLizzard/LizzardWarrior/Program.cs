@@ -55,9 +55,13 @@ namespace MaffeluDemo
                 Console.Clear();
                 Console.BackgroundColor = HERO_COLOR;
                 Console.SetCursorPosition(newHero.X, newHero.Y);
-                Console.Write("\\  /\n");
-                Console.SetCursorPosition(newHero.X, newHero.Y+1);
-                Console.Write("****");
+                Console.Write(@"  __  ,");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 1);
+                Console.Write(@" (' \ \");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 2);
+                Console.Write(@"  \ \\/");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 3);
+                Console.Write(@"'\/\ \\");
 
                 Hero = newHero;
             }

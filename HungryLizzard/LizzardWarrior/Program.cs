@@ -76,6 +76,31 @@ namespace HungryLizard
                 return false;
             }
         }
+        static void DrawGrid()//draws frame
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.Write("+");
+            Console.SetCursorPosition(Console.WindowWidth - 1, 0);
+            Console.Write("+");
+            Console.SetCursorPosition(0, Console.WindowHeight - 3);
+            Console.Write("+");
+            Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight - 3);
+            Console.Write("+");
+            for (int i = 1; i < Console.WindowWidth-1; i++)
+            {
+                Console.SetCursorPosition(i, 0);
+                Console.Write("=");
+                Console.SetCursorPosition(i, Console.WindowHeight-3);
+                Console.Write("=");
+            }
+            for (int j = 1; j < Console.WindowHeight-3; j++)
+            {
+                Console.SetCursorPosition(0, j);
+                Console.Write("|");
+                Console.SetCursorPosition(Console.WindowWidth-1, j);
+                Console.Write("|");
+            }
+        }
         //Main
         static void Main(string[] args) 
         {
@@ -101,7 +126,7 @@ namespace HungryLizard
                     }
                 }
 
-
+                DrawGrid();
                 Thread.Sleep(100);
             }
         }

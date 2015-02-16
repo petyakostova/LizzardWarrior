@@ -12,22 +12,15 @@ namespace HungryLizard
         public int Y { get; set; }
     }
 
-    class Fly : Coordinate
+    class Creature : Coordinate
     {
         public int points { get; set; }
         public ConsoleColor color { get; set; }
         public char symbol { get; set; }
     }
-
-    class Hero : Coordinate
-    {
-        public char symbol { get; set; }
-        public ConsoleColor color { get; set; }
-
-    }
     class Program
     {
-        public static Hero Hero { get; set; }
+        public static Creature Hero { get; set; }
 
         static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
         {
@@ -35,16 +28,24 @@ namespace HungryLizard
             Console.ForegroundColor = color;
             Console.Write(c);
 
-        } 
+        }
+
+        static void PrintStringOnPosition(int x, int y, string str, ConsoleColor color = ConsoleColor.Gray)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
+            Console.Write(str);
+        }
         
         static void InitGame()//initializes the game and sets the Hero in the middle of the console
         {
-            Hero = new Hero()
+            Hero = new Creature()
             {
-                X = Console.WindowWidth/2,
+                X = Console.WindowWidth/3,
                 Y = Console.WindowHeight - 4,
                 symbol = '@',
-                color = ConsoleColor.Black
+                color = ConsoleColor.Black,
+                points = 0
             };
             MoveHero(0);
         }
@@ -137,7 +138,7 @@ namespace HungryLizard
         //Main
         enum FlyTypes
         {
-            tinyFly,
+            tinyFly = 0,
             HorseFly,
             Cece
         }
@@ -145,13 +146,13 @@ namespace HungryLizard
         {
             InitConsole();
             InitGame();
-            int playerFieldWidth = 90;
+            int playerFieldWidth = 60;
 
             Random randomGenerator = new Random();
-            List<Fly> flies = new List<Fly>();
+            List<Creature> flies = new List<Creature>();
             while (true)
             {
-                Fly newRandomFly = new Fly();
+                Creature newRandomFly = new Creature();
                 newRandomFly.X = randomGenerator.Next(1, playerFieldWidth);
                 newRandomFly.Y = 1;
                 newRandomFly.symbol = '%';
@@ -193,11 +194,11 @@ namespace HungryLizard
                     }
                 }
 
-                List<Fly> newFlies = new List<Fly>();
+                List<Creature> newFlies = new List<Creature>();
                 for (int i = 0; i < flies.Count; i++)
                 {
-                    Fly oldFly = flies[i];
-                    Fly newFly = new Fly();
+                    Creature oldFly = flies[i];
+                    Creature newFly = new Creature();
                     newFly.X = oldFly.X;
                     newFly.Y = oldFly.Y + 1;
                     newFly.color = oldFly.color;
@@ -212,11 +213,16 @@ namespace HungryLizard
 
                 Console.Clear();
                 PrintOnPosition(Hero.X, Hero.Y, Hero.symbol, Hero.color);
-                foreach (Fly fly in flies)
+                foreach (Creature fly in flies)
                 {
                     PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
                 // DrawGrid();
+                PrintStringOnPosition(65, 5, "Tiny Fly: 10 points", ConsoleColor.Red);
+                PrintStringOnPosition(65, 6, "Horse Fly: 20 points", ConsoleColor.Blue);
+                PrintStringOnPosition(65, 7, "Fly Cece: 30 points", ConsoleColor.DarkGreen);
+                PrintStringOnPosition(65, 10, "Your points: " + Hero.points, ConsoleColor.Black);
+
                 Thread.Sleep(200);
             }
         }

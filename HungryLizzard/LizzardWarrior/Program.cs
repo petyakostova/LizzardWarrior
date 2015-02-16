@@ -11,9 +11,23 @@ namespace HungryLizard
         public int X { get; set; }
         public int Y { get; set; }
     }
+
+    class Fly : Coordinate
+    {
+        public int points { get; set; }
+        public ConsoleColor color { get; set; }
+        public char symbol { get; set; }
+    }
+
+    class Hero : Coordinate
+    {
+        public char symbol { get; set; }
+        public ConsoleColor color { get; set; }
+
+    }
     class Program
     {
-        public static Coordinate Hero { get; set; }
+        public static Hero Hero { get; set; }
 
         static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
         {
@@ -25,37 +39,45 @@ namespace HungryLizard
         
         static void InitGame()//initializes the game and sets the Hero in the middle of the console
         {
-            
-
-            Hero = new Coordinate()
+            Hero = new Hero()
             {
                 X = Console.WindowWidth/2,
-                Y = Console.WindowHeight -1
+                Y = Console.WindowHeight - 4,
+                symbol = '@',
+                color = ConsoleColor.Black
             };
             MoveHero(0);
-
         }
 
+        /// <summary>
+        /// New MoveHero() function
+        /// </summary>
+        /// <param name="a"></param>
         static void MoveHero(int a)//moves the Hero, where a is number of positions its moved
         {
-            Coordinate newHero = new Coordinate
-            {
-                X = Hero.X + a,
-                Y = Console.WindowHeight - 4
-            };
-            if (CanMove(newHero))
-            {               
-                RemoveHero();
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.SetCursorPosition(newHero.X, newHero.Y-1);
-                Console.Write("\\  /");
-                Console.SetCursorPosition(newHero.X, newHero.Y);
-                Console.Write("****");
-                Hero = newHero;
-            }
-            
+            Hero.X = Hero.X + a;
+           
         }
+        //static void MoveHero(int a)//moves the Hero, where a is number of positions its moved
+        //{
+        //    Coordinate newHero = new Coordinate
+        //    {
+        //    Hero.X = Hero.X + a;
+        //        Y = Console.WindowHeight - 4
+        //    };
+        //    if (CanMove(newHero))
+        //    {               
+        //        RemoveHero();
+        //        Console.Clear();
+        //        Console.ForegroundColor = ConsoleColor.Black;
+        //        Console.SetCursorPosition(newHero.X, newHero.Y-1);
+        //        Console.Write("\\  /");
+        //        Console.SetCursorPosition(newHero.X, newHero.Y);
+        //        Console.Write("****");
+        //        Hero = newHero;
+        //    }
+            
+        //}
 
         static void RemoveHero()
         {
@@ -109,7 +131,7 @@ namespace HungryLizard
         {
             Console.BufferHeight = Console.WindowHeight = 30;
             Console.BufferWidth = Console.WindowWidth = 90;
-            Console.BackgroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.Gray;
             Console.CursorVisible = false;
         }
         //Main
@@ -118,9 +140,17 @@ namespace HungryLizard
             InitConsole();
             InitGame();
 
+            Random randomGenerator = new Random();
+            List<Fly> flies = new List<Fly>();
             while (true)
             {
-                
+                Fly newRandomFly = new Fly();
+                newRandomFly.color = ConsoleColor.Red;
+                newRandomFly.X = randomGenerator.Next(0, 89);
+                newRandomFly.Y = 1;
+                newRandomFly.symbol = '%';
+                flies.Add(newRandomFly);
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -135,8 +165,30 @@ namespace HungryLizard
                     }
                 }
 
-                DrawGrid();
-                Thread.Sleep(100);
+                List<Fly> newFlies = new List<Fly>();
+                for (int i = 0; i < flies.Count; i++)
+                {
+                    Fly oldFly = flies[i];
+                    Fly newFly = new Fly();
+                    newFly.X = oldFly.X;
+                    newFly.Y = oldFly.Y + 1;
+                    newFly.color = oldFly.color;
+                    newFly.symbol = oldFly.symbol;
+                    if (newFly.Y < Console.WindowHeight - 3)
+                    {
+                        newFlies.Add(newFly);
+                    }
+                }
+                flies = newFlies;
+
+                Console.Clear();
+                PrintOnPosition(Hero.X, Hero.Y, Hero.symbol, Hero.color);
+                foreach (Fly fly in flies)
+                {
+                    PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
+                }
+                // DrawGrid();
+                Thread.Sleep(150);
             }
         }
 

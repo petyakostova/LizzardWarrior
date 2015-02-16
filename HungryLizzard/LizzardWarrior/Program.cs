@@ -101,12 +101,21 @@ namespace HungryLizard
                 Console.Write("|");
             }
         }
+
+        /// <summary>
+        /// Set Console width and height, set Console background color and make cursor invisible
+        /// </summary>
+        static void InitConsole()
+        {
+            Console.BufferHeight = Console.WindowHeight = 30;
+            Console.BufferWidth = Console.WindowWidth = 90;
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.CursorVisible = false;
+        }
         //Main
         static void Main(string[] args) 
         {
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.BufferHeight = Console.WindowHeight = 30;
-            Console.BufferWidth = Console.WindowWidth = 90;
+            InitConsole();
             InitGame();
 
             while (true)

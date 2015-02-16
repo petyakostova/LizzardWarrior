@@ -9,8 +9,8 @@ namespace MaffeluDemo
 {
     class Program
     {
-        const ConsoleColor HERO_COLOR = ConsoleColor.DarkBlue;
-        const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Green;
+        const ConsoleColor HERO_COLOR = ConsoleColor.Gray;
+        const ConsoleColor BACKGROUND_COLOR = ConsoleColor.Gray;
 
         public static Coordinate Hero { get; set; } //Will represent our here that's moving around :P/>
 
@@ -54,14 +54,29 @@ namespace MaffeluDemo
                 RemoveHero();
                 Console.Clear();
                 Console.BackgroundColor = HERO_COLOR;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.SetCursorPosition(newHero.X, newHero.Y);
-                Console.Write(@"  __  ,");
+                Console.Write(@"  __  ,          ");
                 Console.SetCursorPosition(newHero.X, newHero.Y + 1);
-                Console.Write(@" (' \ \");
+                Console.Write(@" (' \ \          ");
                 Console.SetCursorPosition(newHero.X, newHero.Y + 2);
-                Console.Write(@"  \ \\/");
+                Console.Write(@"  \ \\/          ");
                 Console.SetCursorPosition(newHero.X, newHero.Y + 3);
-                Console.Write(@"'\/\ \\");
+                Console.Write(@"'\/\ \\          ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 4);
+                Console.Write(@"    \ \\/\,      ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 5);
+                Console.Write(@"     \ \\        ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 6);
+                Console.Write(@"     /\ \\       ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 7);
+                Console.Write(@"     \ `\\\      ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 8);
+                Console.Write(@"     '   `\\     ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 9);
+                Console.Write(@"           \\    ");
+                Console.SetCursorPosition(newHero.X, newHero.Y + 10);
+                Console.Write(@"            `---'");
 
                 Hero = newHero;
             }
@@ -83,7 +98,7 @@ namespace MaffeluDemo
         /// </summary>
         static bool CanMove(Coordinate c)
         {
-            if (c.X < 0 || c.X >= Console.WindowWidth-3)
+            if (c.X < 0 || c.X >= Console.WindowWidth-16)
                 return false;
 
             if (c.Y < 0 || c.Y >= Console.WindowHeight)

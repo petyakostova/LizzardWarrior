@@ -176,17 +176,17 @@ namespace HungryLizard
                     switch (flyType)
                     {
                         case 0:
-                            newRandomFly.symbol = '%';
+                            newRandomFly.symbol = '*';
                             newRandomFly.color = ConsoleColor.Red;
                             newRandomFly.points = 10;
                             break;
                         case 1:
-                            newRandomFly.symbol = '$';
+                            newRandomFly.symbol = '*';
                             newRandomFly.color = ConsoleColor.Blue;
                             newRandomFly.points = 20;
                             break;
                         case 2:
-                            newRandomFly.symbol = '#';
+                            newRandomFly.symbol = '*';
                             newRandomFly.color = ConsoleColor.DarkGreen;
                             newRandomFly.points = 30;
                             break;
@@ -248,7 +248,7 @@ namespace HungryLizard
                     if (fly.Y == Console.WindowHeight - 4 && fly.X == Hero.X)
                     {
                         newHero.points += fly.points;
-                        PrintOnPosition(fly.X, fly.Y, '*', ConsoleColor.Black);//Eating "annimation"
+                        PrintOnPosition(fly.X, fly.Y, '-', ConsoleColor.Black);//Eating "annimation"
                     }
                     else if (fly.Y == Console.WindowHeight - 4 && fly.X != Hero.X)
                     {

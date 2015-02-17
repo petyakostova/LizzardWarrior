@@ -161,6 +161,7 @@ namespace HungryLizard
                 lives = 5
             };
 
+            //Creates new flies
             Random randomGenerator = new Random();
             List<Creature> flies = new List<Creature>();
             while (true)
@@ -197,6 +198,7 @@ namespace HungryLizard
                     loopCounter = 0;
                 }
 
+                //Checks for key pressed
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -211,6 +213,7 @@ namespace HungryLizard
                     }
                 }
 
+                //Puts Flies into a list of flies
                 List<Creature> newFlies = new List<Creature>();
                 for (int i = 0; i < flies.Count; i++)
                 {
@@ -230,10 +233,15 @@ namespace HungryLizard
 
                 flies = newFlies;
 
+                //Clears the console
                 Console.Clear();
                 
+                //Starts redrawing:
+
+                //Draws hero on its position
                 MoveHero(0);
 
+                //Prints flies and checks for collision
                 foreach (Creature fly in flies)
                 {
 
@@ -250,6 +258,7 @@ namespace HungryLizard
                     PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
                 
+                //Prints some info about the game
                 PrintStringOnPosition(65, 5, "Tiny Fly: 10 points", ConsoleColor.Red);
                 PrintStringOnPosition(65, 6, "Horse Fly: 20 points", ConsoleColor.Blue);
                 PrintStringOnPosition(65, 7, "Fly Cece: 30 points", ConsoleColor.DarkGreen);
@@ -259,6 +268,8 @@ namespace HungryLizard
                 {
                     PrintOnPosition(i, 11, '\u2665', ConsoleColor.Red);
                 }
+                
+                //Checks if you have more than 0 lives
                 if (IsDead(newHero))
                 {
                     Console.Clear();
@@ -275,7 +286,10 @@ namespace HungryLizard
                         break;
                     }                                  
                 }
-                DrawGrid();
+                
+                //DrawGrid();
+                
+                //Some levels
                 if (newHero.points > 300 && newHero.points < 500)
                 {
                     speed = 180;
@@ -296,7 +310,7 @@ namespace HungryLizard
                 {
                     speed = 80;
                 }
-                else if (newHero.points > 1500)
+                else if (newHero.points > 1500)//God mode
                 {
                     speed = 70;
                     InitConsole(ConsoleColor.Green);

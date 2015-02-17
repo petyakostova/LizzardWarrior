@@ -271,7 +271,7 @@ namespace HungryLizard
                     }                                  
                 }
                 DrawGrid();
-                Thread.Sleep(50);
+                Thread.Sleep(150);
                 counter++;
             }
         }

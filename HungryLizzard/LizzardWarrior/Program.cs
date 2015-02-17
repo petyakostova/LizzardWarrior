@@ -64,7 +64,7 @@ namespace HungryLizard
             if (CanMove(newHero))
             {
                 //RemoveHero();
-
+                Console.Clear();
                 PrintOnPosition(newHero.X, newHero.Y, '@', ConsoleColor.Black);
                 Hero = newHero;
             }
@@ -219,6 +219,7 @@ namespace HungryLizard
                 flies = newFlies;
 
                 Console.Clear();
+                
                 MoveHero(0);
                 foreach (Creature fly in flies)
                 {
@@ -230,12 +231,12 @@ namespace HungryLizard
                     else
                     PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
-                DrawGrid();
+                
                 PrintStringOnPosition(65, 5, "Tiny Fly: 10 points", ConsoleColor.Red);
                 PrintStringOnPosition(65, 6, "Horse Fly: 20 points", ConsoleColor.Blue);
                 PrintStringOnPosition(65, 7, "Fly Cece: 30 points", ConsoleColor.DarkGreen);
                 PrintStringOnPosition(65, 10, "Your points: " + newHero.points, ConsoleColor.Black);
-
+                DrawGrid();
                 Thread.Sleep(200);
             }
         }

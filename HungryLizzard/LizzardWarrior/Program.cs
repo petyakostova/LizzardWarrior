@@ -101,27 +101,27 @@ namespace HungryLizard
             Console.SetCursorPosition(0, Console.WindowHeight-3);
             Console.Write(new string('=', Console.WindowWidth));
 
-            for (int j = 1; j < Console.WindowHeight - 3; j++)
-            {
-                Console.SetCursorPosition(0, j);
-                Console.Write("|");
-                Console.SetCursorPosition(Console.WindowWidth - 1, j);
-                Console.Write("|");
-                Console.SetCursorPosition(62, j);
-                Console.Write("|");
-            }
-            Console.SetCursorPosition(0, 0);
-            Console.Write("+");
-            Console.SetCursorPosition(Console.WindowWidth - 1, 0);
-            Console.Write("+");
-            Console.SetCursorPosition(0, Console.WindowHeight - 3);
-            Console.Write("+");
-            Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight - 3);
-            Console.Write("+");
-            Console.SetCursorPosition(62, 0);
-            Console.Write("+");
-            Console.SetCursorPosition(62, Console.WindowHeight - 3);
-            Console.Write("+");
+            //for (int j = 1; j < Console.WindowHeight - 3; j++)
+            //{
+            //    Console.SetCursorPosition(0, j);
+            //    Console.Write("|");
+            //    Console.SetCursorPosition(Console.WindowWidth - 1, j);
+            //    Console.Write("|");
+            //    Console.SetCursorPosition(62, j);
+            //    Console.Write("|");
+            //}
+            //Console.SetCursorPosition(0, 0);
+            //Console.Write("+");
+            //Console.SetCursorPosition(Console.WindowWidth - 1, 0);
+            //Console.Write("+");
+            //Console.SetCursorPosition(0, Console.WindowHeight - 3);
+            //Console.Write("+");
+            //Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight - 3);
+            //Console.Write("+");
+            //Console.SetCursorPosition(62, 0);
+            //Console.Write("+");
+            //Console.SetCursorPosition(62, Console.WindowHeight - 3);
+            //Console.Write("+");
         }
 
         /// Set Console width and height, set Console background color and make cursor invisible
@@ -287,7 +287,7 @@ namespace HungryLizard
                     }                                  
                 }
                 
-                //DrawGrid();
+                DrawGrid();
                 
                 //Some levels
                 if (newHero.points > 300 && newHero.points < 500)

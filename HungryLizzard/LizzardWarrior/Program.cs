@@ -231,17 +231,20 @@ namespace HungryLizard
                 Console.Clear();
                 
                 MoveHero(0);
+
                 foreach (Creature fly in flies)
                 {
 
                     if (fly.Y == Console.WindowHeight - 4 && fly.X == Hero.X)
                     {
                         newHero.points += fly.points;
+                        PrintOnPosition(fly.X, fly.Y, '^', ConsoleColor.Black);//Eating "annimation"
                     }
                     else if (fly.Y == Console.WindowHeight - 4 && fly.X != Hero.X)
                     {
                         newHero.lives--;
                     }
+                    else
                     PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
                 
@@ -259,7 +262,7 @@ namespace HungryLizard
                     Console.Clear();
                     PrintStringOnPosition(Console.WindowWidth / 2 - 5, Console.WindowHeight / 2, "Game Over!");
                     PrintStringOnPosition(Console.WindowWidth / 2 - 8, (Console.WindowHeight / 2) + 1, "Your score was: " + newHero.points);
-                    PrintStringOnPosition(Console.WindowWidth / 2 - 10, (Console.WindowHeight / 2) + 2, "Press any key to exit");
+                    PrintStringOnPosition(Console.WindowWidth / 2 - 10, (Console.WindowHeight / 2) + 2, "Press enter to play again");
                     ConsoleKeyInfo key = Console.ReadKey();
                     if (key.Key == ConsoleKey.Enter)
                     {

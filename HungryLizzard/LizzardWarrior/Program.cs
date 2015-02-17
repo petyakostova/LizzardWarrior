@@ -177,7 +177,7 @@ namespace HungryLizard
                     case 2:
                         newRandomFly.symbol = '#';
                         newRandomFly.color = ConsoleColor.DarkGreen;
-                        newRandomFly.points = 10;
+                        newRandomFly.points = 30;
                         break;
                     default:
                         break;
@@ -222,11 +222,13 @@ namespace HungryLizard
                 MoveHero(0);
                 foreach (Creature fly in flies)
                 {
-                    PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
+                    
                     if (fly.Y == Console.WindowHeight - 4 && fly.X == Hero.X)
                     {
                         newHero.points += fly.points;
                     }
+                    else
+                    PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
                 DrawGrid();
                 PrintStringOnPosition(65, 5, "Tiny Fly: 10 points", ConsoleColor.Red);

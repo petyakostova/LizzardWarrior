@@ -147,6 +147,8 @@ namespace HungryLizard
 
             int[] possitions = { 1, 16, 31, 46, 61 };
 
+            int counter = 0;
+
             Creature newHero = new Creature()
             {
                 points = 0
@@ -156,33 +158,37 @@ namespace HungryLizard
             List<Creature> flies = new List<Creature>();
             while (true)
             {
-                Creature newRandomFly = new Creature();
-                newRandomFly.X = possitions[randomGenerator.Next(0, 5)];
-                newRandomFly.Y = 1;
-                newRandomFly.symbol = '%';
-                int flyType = randomGenerator.Next(0, 3);
-                switch (flyType)
+                if (counter == 9)
                 {
-                    case 0:
-                        newRandomFly.symbol = '%';
-                        newRandomFly.color = ConsoleColor.Red;
-                        newRandomFly.points = 10;
-                        break;
-                    case 1:
-                        newRandomFly.symbol = '$';
-                        newRandomFly.color = ConsoleColor.Blue;
-                        newRandomFly.points = 20;
-                        break;
-                    case 2:
-                        newRandomFly.symbol = '#';
-                        newRandomFly.color = ConsoleColor.DarkGreen;
-                        newRandomFly.points = 30;
-                        break;
-                    default:
-                        break;
-                }
+                    Creature newRandomFly = new Creature();
+                    newRandomFly.X = possitions[randomGenerator.Next(0, 5)];
+                    newRandomFly.Y = 1;
+                    newRandomFly.symbol = '%';
+                    int flyType = randomGenerator.Next(0, 3);
+                    switch (flyType)
+                    {
+                        case 0:
+                            newRandomFly.symbol = '%';
+                            newRandomFly.color = ConsoleColor.Red;
+                            newRandomFly.points = 10;
+                            break;
+                        case 1:
+                            newRandomFly.symbol = '$';
+                            newRandomFly.color = ConsoleColor.Blue;
+                            newRandomFly.points = 20;
+                            break;
+                        case 2:
+                            newRandomFly.symbol = '#';
+                            newRandomFly.color = ConsoleColor.DarkGreen;
+                            newRandomFly.points = 30;
+                            break;
+                        default:
+                            break;
+                    }
 
-                flies.Add(newRandomFly);
+                    flies.Add(newRandomFly);
+                    counter = 0;
+                }
 
                 if (Console.KeyAvailable)
                 {
@@ -237,6 +243,7 @@ namespace HungryLizard
                 PrintStringOnPosition(65, 10, "Your points: " + newHero.points, ConsoleColor.Black);
                 DrawGrid();
                 Thread.Sleep(200);
+                counter++;
             }
         }
 

@@ -94,13 +94,12 @@ namespace HungryLizard
         {
             Console.ForegroundColor = ConsoleColor.Black;
 
-            for (int i = 1; i < Console.WindowWidth - 1; i++)
-            {
-                Console.SetCursorPosition(i, 0);
-                Console.Write("=");
-                Console.SetCursorPosition(i, Console.WindowHeight - 3);
-                Console.Write("=");
-            }
+
+            Console.SetCursorPosition(0, 0);
+            Console.Write(new string('=', Console.WindowWidth));
+            Console.SetCursorPosition(0, Console.WindowHeight-3);
+            Console.Write(new string('=', Console.WindowWidth));
+
             for (int j = 1; j < Console.WindowHeight - 3; j++)
             {
                 Console.SetCursorPosition(0, j);

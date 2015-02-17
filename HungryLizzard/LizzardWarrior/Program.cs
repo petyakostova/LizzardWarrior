@@ -66,7 +66,7 @@ namespace HungryLizard
             {
                 //RemoveHero();
                 Console.Clear();
-                PrintOnPosition(newHero.X, newHero.Y, '@', ConsoleColor.Black);
+                PrintStringOnPosition(newHero.X-1, newHero.Y, "_^_", ConsoleColor.Black);
                 Hero = newHero;
             }
 
@@ -125,11 +125,11 @@ namespace HungryLizard
         }
 
         /// Set Console width and height, set Console background color and make cursor invisible
-        static void InitConsole()
+        static void InitConsole(ConsoleColor color = ConsoleColor.Gray)
         {
             Console.BufferHeight = Console.WindowHeight = 30;
             Console.BufferWidth = Console.WindowWidth = 90;
-            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.BackgroundColor = color;
             Console.CursorVisible = false;
         }
         static bool IsDead(Creature c)
@@ -143,7 +143,7 @@ namespace HungryLizard
                 return true;
             }
         }
-        //Main
+        //Main ------------------------------------------------------------------------------------------------------------------------------------
         static void Main()
         {
             InitConsole();
@@ -151,7 +151,9 @@ namespace HungryLizard
 
             int[] possitions = { 1, 16, 31, 46, 61 };
 
-            int counter = 0;
+            int loopCounter = 0;
+
+            int speed = 200;
 
             Creature newHero = new Creature()
             {
@@ -163,7 +165,7 @@ namespace HungryLizard
             List<Creature> flies = new List<Creature>();
             while (true)
             {
-                if (counter == 9)
+                if (loopCounter == 9)
                 {
                     Creature newRandomFly = new Creature();
                     newRandomFly.X = possitions[randomGenerator.Next(0, 5)];
@@ -192,7 +194,7 @@ namespace HungryLizard
                     }
 
                     flies.Add(newRandomFly);
-                    counter = 0;
+                    loopCounter = 0;
                 }
 
                 if (Console.KeyAvailable)
@@ -238,7 +240,7 @@ namespace HungryLizard
                     if (fly.Y == Console.WindowHeight - 4 && fly.X == Hero.X)
                     {
                         newHero.points += fly.points;
-                        PrintOnPosition(fly.X, fly.Y, '^', ConsoleColor.Black);//Eating "annimation"
+                        PrintOnPosition(fly.X, fly.Y, '*', ConsoleColor.Black);//Eating "annimation"
                     }
                     else if (fly.Y == Console.WindowHeight - 4 && fly.X != Hero.X)
                     {
@@ -274,8 +276,33 @@ namespace HungryLizard
                     }                                  
                 }
                 DrawGrid();
-                Thread.Sleep(150);
-                counter++;
+                if (newHero.points > 300 && newHero.points < 500)
+                {
+                    speed = 180;
+                }
+                else if (newHero.points > 500 && newHero.points < 700)
+                {
+                    speed = 160;
+                }
+                else if (newHero.points > 700 && newHero.points < 1000)
+                {
+                    speed = 130;
+                }
+                else if (newHero.points > 1000 && newHero.points < 1200)
+                {
+                    speed = 100;
+                }
+                else if (newHero.points > 1200 && newHero.points < 1500)
+                {
+                    speed = 80;
+                }
+                else if (newHero.points > 1500)
+                {
+                    speed = 70;
+                    InitConsole(ConsoleColor.Green);
+                }
+                Thread.Sleep(speed);
+                loopCounter++;
             }
         }
 

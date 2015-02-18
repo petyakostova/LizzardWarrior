@@ -19,11 +19,14 @@ namespace HungryLizard
         public ConsoleColor color { get; set; }
         public char symbol { get; set; }
         public int lives { get; set; }
+        public int fliesEaten { get; set; }
     }
 
     class Program
     {
-        private const string FileName = @"..\..\StartScreen.txt";
+        private const string FileNameStart = @"..\..\StartScreen.txt";
+        private const string FileNameEnd = @"..\..\EndScreen.txt";
+        private const string FileNameScores = @"..\..\Scores.txt";
         public static Creature Hero { get; set; }
         const int fieldWidthStart = 1;
         const int fieldWidthEnd = 61;
@@ -49,22 +52,50 @@ namespace HungryLizard
         static void StartScreen()
         {
             AlreadyStarted = true;
-            using (StreamReader reader = new StreamReader(FileName))
+            using (StreamReader reader = new StreamReader(FileNameStart))
             {
                 string text = reader.ReadToEnd();
-                InitConsole(ConsoleColor.Black);
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
 
                 Console.WriteLine(text);
                 Console.WriteLine("\n");
 
                 for (int i = 0; i < 90; i++)
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.White;
 
                     Console.Write('|');
-                    Thread.Sleep(30);
+                    Thread.Sleep(20);
                 }
+            }
+        }
+
+        static void EndScreen(Creature c)
+        {
+            using (StreamReader reader = new StreamReader(FileNameEnd))
+            {
+                string text = reader.ReadToEnd();
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Black;
+                Console.WriteLine("{0}{1}", text, c.points);
+            }
+            Console.CursorVisible = true;
+            string enterName = "Enter your name: ";           
+            string pressKey = "Press ENTER to play again, ESC to exit!";
+            PrintStringOnPosition((Console.WindowWidth/2) - (enterName.Length / 2) , Console.WindowHeight / 2 + 5, enterName);
+            string name = Console.ReadLine();
+            Console.CursorVisible = false;
+            PrintStringOnPosition((Console.WindowWidth / 2) - (pressKey.Length / 2), Console.WindowHeight / 2 + 6, pressKey);
+            WriteHighScore(c, name);
+            ConsoleKeyInfo key = Console.ReadKey();
+            if (key.Key == ConsoleKey.Enter)
+            {
+                Main();
+            }
+            else if (key.Key == ConsoleKey.Escape)
+            {
+                Environment.Exit(0);
             }
         }
 
@@ -73,12 +104,19 @@ namespace HungryLizard
             Hero = new Creature()
             {
                 X = ((fieldWidthEnd - fieldWidthStart) / 2) + 1,
-                Y = Console.WindowHeight - 4,
-                symbol = '@',
+                Y = Console.WindowHeight - 1,
                 color = ConsoleColor.Black,
                 points = 0
             };
             MoveHero(0);
+        }
+
+        static void WriteHighScore(Creature c, string s)
+        {
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(FileNameScores, true))
+            {
+                file.WriteLine("{0} - {1}", s, c.points);
+            }
         }
 
         static void MoveHero(int a)//moves the Hero, where a is number of positions its moved
@@ -120,38 +158,16 @@ namespace HungryLizard
         static void DrawGrid()//draws frame
         {
             Console.ForegroundColor = ConsoleColor.Black;
-
-
-            Console.SetCursorPosition(0, 0);
-            Console.Write(new string('=', Console.WindowWidth));
-            Console.SetCursorPosition(0, Console.WindowHeight - 3);
-            Console.Write(new string('=', Console.WindowWidth));
-
-            for (int j = 1; j < Console.WindowHeight - 3; j++)
+            for (int j = 0; j < Console.WindowHeight; j++)
             {
-                Console.SetCursorPosition(0, j);
-                Console.Write("|");
-                Console.SetCursorPosition(Console.WindowWidth - 1, j);
-                Console.Write("|");
-                Console.SetCursorPosition(62, j);
+                Console.SetCursorPosition(fieldWidthEnd+1, j);
                 Console.Write("|");
             }
-            Console.SetCursorPosition(0, 0);
-            Console.Write("+");
-            Console.SetCursorPosition(Console.WindowWidth - 1, 0);
-            Console.Write("+");
-            Console.SetCursorPosition(0, Console.WindowHeight - 3);
-            Console.Write("+");
-            Console.SetCursorPosition(Console.WindowWidth - 1, Console.WindowHeight - 3);
-            Console.Write("+");
-            Console.SetCursorPosition(62, 0);
-            Console.Write("+");
-            Console.SetCursorPosition(62, Console.WindowHeight - 3);
-            Console.Write("+");
+
         }
 
         /// Set Console width and height, set Console background color and make cursor invisible
-        static void InitConsole(ConsoleColor color = ConsoleColor.Gray)
+        static void InitConsole(ConsoleColor color = ConsoleColor.White)
         {
             Console.BufferHeight = Console.WindowHeight = 30;
             Console.BufferWidth = Console.WindowWidth = 90;
@@ -160,7 +176,7 @@ namespace HungryLizard
         }
         static bool IsDead(Creature c)
         {
-            if (c.lives > 0)
+            if (c.lives > 0 && c.points >= 0)
             {
                 return false;
             }
@@ -187,7 +203,7 @@ namespace HungryLizard
             newRandomFly.X = p[r.Next(0, 5)];
             newRandomFly.Y = 1;
             newRandomFly.symbol = '%';
-            int flyType = r.Next(0, 3);
+            int flyType = r.Next(0, 4);
             switch (flyType)
             {
                 case 0:
@@ -205,29 +221,19 @@ namespace HungryLizard
                     newRandomFly.color = ConsoleColor.DarkGreen;
                     newRandomFly.points = 30;
                     break;
+                case 3:
+                    newRandomFly.symbol = 'O';
+                    newRandomFly.color = ConsoleColor.Red;
+                    newRandomFly.points = -100;
+                    break;
                 default:
                     break;
             }
 
             return newRandomFly;
         }
-        static void EndScreen(Creature c)
-        {
-            Console.Clear();
-            PrintStringOnPosition(Console.WindowWidth / 2 - 5, Console.WindowHeight / 2, "Game Over!");
-            PrintStringOnPosition(Console.WindowWidth / 2 - 8, (Console.WindowHeight / 2) + 1, "Your score was: " + c.points);
-            PrintStringOnPosition(Console.WindowWidth / 2 - 10, (Console.WindowHeight / 2) + 2, "Press enter to play again");
-            ConsoleKeyInfo key = Console.ReadKey();
-            if (key.Key == ConsoleKey.Enter)
-            {
-                Main();
-            }
-            else
-            {
 
-            }
-        }
-        //Main ------------------------------------------------------------------------------------------------------------------------------------
+        //Main
         static void Main()
         {
             if (!AlreadyStarted)
@@ -246,7 +252,8 @@ namespace HungryLizard
             Creature newHero = new Creature()
             {
                 points = 0,
-                lives = 5
+                lives = 5, 
+                fliesEaten = 0
             };
 
             //Creates new flies
@@ -255,7 +262,7 @@ namespace HungryLizard
             while (true)
             {
 
-                if (Console.KeyAvailable)
+                if (Console.KeyAvailable)//Checks for key pressed
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
                     while (Console.KeyAvailable) Console.ReadKey(true);
@@ -275,11 +282,8 @@ namespace HungryLizard
                     randomLoop = randomGenerator.Next(8, 15);
                     loopCounter = 0;
                 }
-
-                //Checks for key pressed
-
-                //Puts Flies into a list of flies
-                List<Creature> newFlies = new List<Creature>();
+              
+                List<Creature> newFlies = new List<Creature>();//Puts Flies into a list of flies
                 for (int i = 0; i < flies.Count; i++)
                 {
                     Creature oldFly = flies[i];
@@ -289,48 +293,45 @@ namespace HungryLizard
                     newFly.color = oldFly.color;
                     newFly.symbol = oldFly.symbol;
                     newFly.points = oldFly.points;
-                    if (newFly.Y < Console.WindowHeight - 3)
+                    if (newFly.Y < Console.WindowHeight)
                     {
                         newFlies.Add(newFly);
                     }
 
                 }
-
                 flies = newFlies;
+              
+                Console.Clear();//Clears the console
+          
+                MoveHero(0);//Draws hero on its position
 
-
-                //Clears the console
-                Console.Clear();
-
-                //Starts redrawing:
-
-                //Draws hero on its position
-                MoveHero(0);
-
-
-                //Prints flies and checks for collision
-                foreach (Creature fly in flies)
+                DrawGrid();
+                
+                foreach (Creature fly in flies)//Prints flies and checks for collision
                 {
 
-                    if (fly.Y == Console.WindowHeight - 4 && fly.X == Hero.X)
+                    if (fly.Y == Console.WindowHeight - 1 && fly.X == Hero.X)
                     {
                         newHero.points += fly.points;
                         PrintOnPosition(fly.X, fly.Y, '-', ConsoleColor.Black);//Eating "annimation"
+                        newHero.fliesEaten++;
                     }
-                    else if (fly.Y == Console.WindowHeight - 4 && fly.X != Hero.X)
+                    else if (fly.Y == Console.WindowHeight - 1 && fly.X != Hero.X)
                     {
                         newHero.lives--;
+                        PrintOnPosition(fly.X, fly.Y, 'X', ConsoleColor.Red);
                     }
-                    else
-                        PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
+                    else PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
                 }
-
-                //Prints some info about the game
-                PrintInfo(newHero);
-
-                //Checks if you have more than 0 lives
-                if (IsDead(newHero))
+   
+                PrintInfo(newHero);//Prints some info about the game
+                
+                if (IsDead(newHero))//Checks if you have more than 0 lives
                 {
+                    if (newHero.points < 0)
+                    {
+                        newHero.points = 0;
+                    }
                     EndScreen(newHero);
                 }
 

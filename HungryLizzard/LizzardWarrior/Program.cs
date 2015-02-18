@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -22,9 +23,11 @@ namespace HungryLizard
 
     class Program
     {
+        private const string FileName = @"..\..\StartScreen.txt";
         public static Creature Hero { get; set; }
         const int fieldWidthStart = 1;
         const int fieldWidthEnd = 61;
+        public static bool AlreadyStarted = false;
 
 
         static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
@@ -132,6 +135,28 @@ namespace HungryLizard
             Console.BackgroundColor = color;
             Console.CursorVisible = false;
         }
+        /// Loading screen
+        static void StartScreen()
+        {
+            AlreadyStarted = true;
+            using (StreamReader reader = new StreamReader(FileName))
+            {
+                string text = reader.ReadToEnd();
+                InitConsole(ConsoleColor.Black);
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+
+                Console.WriteLine(text);
+                Console.WriteLine("\n");
+
+                for (int i = 0; i < 90; i++)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.Write('|');
+                    Thread.Sleep(30);
+                }
+            }
+        }
         static bool IsDead(Creature c)
         {
             if (c.lives>0)
@@ -146,6 +171,10 @@ namespace HungryLizard
         //Main ------------------------------------------------------------------------------------------------------------------------------------
         static void Main()
         {
+            if (!AlreadyStarted)
+            {
+                StartScreen();                
+            }
             InitConsole();
             InitGame();
 

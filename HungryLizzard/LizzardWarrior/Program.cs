@@ -160,7 +160,7 @@ namespace HungryLizard
             Console.ForegroundColor = ConsoleColor.Black;
             for (int j = 0; j < Console.WindowHeight; j++)
             {
-                Console.SetCursorPosition(fieldWidthEnd+1, j);
+                Console.SetCursorPosition(fieldWidthEnd+2, j);
                 Console.Write("|");
             }
 
@@ -190,6 +190,7 @@ namespace HungryLizard
             PrintStringOnPosition(65, 5, "Tiny Fly: 10 points", ConsoleColor.Red);
             PrintStringOnPosition(65, 6, "Horse Fly: 20 points", ConsoleColor.Blue);
             PrintStringOnPosition(65, 7, "Fly Cece: 30 points", ConsoleColor.DarkGreen);
+            PrintStringOnPosition(65, 8, "Brick: -100 points", ConsoleColor.DarkRed);
             PrintStringOnPosition(65, 10, "Your points: " + c.points, ConsoleColor.Black);
             PrintStringOnPosition(65, 11, "Your lives: ", ConsoleColor.Black);
             for (int i = 77; i < c.lives + 77; i++)
@@ -222,8 +223,8 @@ namespace HungryLizard
                     newRandomFly.points = 30;
                     break;
                 case 3:
-                    newRandomFly.symbol = 'O';
-                    newRandomFly.color = ConsoleColor.Red;
+                    newRandomFly.symbol = '[';
+                    newRandomFly.color = ConsoleColor.DarkRed;
                     newRandomFly.points = -100;
                     break;
                 default:

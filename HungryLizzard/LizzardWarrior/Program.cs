@@ -240,7 +240,8 @@ namespace HungryLizard
             InitConsole();
             if (!AlreadyStarted)
             {
-                StartScreen();                
+                StartScreen();
+                InitConsole();
             }
             
             InitGame();

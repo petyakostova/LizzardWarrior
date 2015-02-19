@@ -237,11 +237,12 @@ namespace HungryLizard
         //Main
         static void Main()
         {
+            InitConsole();
             if (!AlreadyStarted)
             {
                 StartScreen();                
             }
-            InitConsole();
+            
             InitGame();
 
             int[] positions = { 1, 16, 31, 46, 61 };

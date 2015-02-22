@@ -10,3 +10,9 @@ C:\Users\WaNKeR\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\bin
 C:\Users\WaNKeR\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.csprojResolveAssemblyReference.cache
 C:\Users\WaNKeR\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.exe
 C:\Users\WaNKeR\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.pdb
+C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.exe.config
+C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.exe
+C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.pdb
+C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.exe
+C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.pdb
+C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.csprojResolveAssemblyReference.cache

@@ -60,9 +60,16 @@ namespace HungryLizard
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(0, 5);
                 Console.WriteLine(text);
-                Console.WriteLine("\n\n\n\n");
+                Console.WriteLine("\n\n");
 
-                int select = int.Parse(Console.ReadLine());
+                int select;
+
+                do
+                {
+                    Console.WriteLine("\nChoose wisely, you don't want difficulty different than the listed.\nTrust me on this ;)");
+                } while (!int.TryParse(Console.ReadLine(), out select)
+                    || (select > 5 || select <= 0));
+                
                 int level = int.MinValue;
 
                 switch (select)
@@ -72,8 +79,6 @@ namespace HungryLizard
                     case 3: level = -30; break;
                     case 4: level = -60; break;
                     case 5: level = -100; break;
-                    default: Console.WriteLine("Try again!");
-                        break;
                 }
 
                 return level;
@@ -279,6 +284,7 @@ namespace HungryLizard
             int level = SelectScreen();
             if (!AlreadyStarted)
             {
+                Console.Clear();
                 StartScreen();
                 InitConsole();
             }

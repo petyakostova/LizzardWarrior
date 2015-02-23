@@ -16,3 +16,9 @@ C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj
 C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.exe
 C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.pdb
 C:\Users\Slavka\Documents\GitHub\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.csprojResolveAssemblyReference.cache
+C:\Users\PePsi\Documents\Visual Studio 2013\Projects\Hungry-Lizard\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.exe.config
+C:\Users\PePsi\Documents\Visual Studio 2013\Projects\Hungry-Lizard\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.exe
+C:\Users\PePsi\Documents\Visual Studio 2013\Projects\Hungry-Lizard\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.pdb
+C:\Users\PePsi\Documents\Visual Studio 2013\Projects\Hungry-Lizard\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.exe
+C:\Users\PePsi\Documents\Visual Studio 2013\Projects\Hungry-Lizard\LizzardWarrior\HungryLizzard\LizzardWarrior\bin\Debug\LizzardWarrior.pdb
+C:\Users\PePsi\Documents\Visual Studio 2013\Projects\Hungry-Lizard\LizzardWarrior\HungryLizzard\LizzardWarrior\obj\Debug\LizzardWarrior.csprojResolveAssemblyReference.cache

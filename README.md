@@ -1,1 +1,1 @@
-Simple lizard eating flies game
+Simple Lizzard eating flies game :)

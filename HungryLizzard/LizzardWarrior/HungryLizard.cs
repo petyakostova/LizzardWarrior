@@ -24,6 +24,7 @@ namespace HungryLizard
 
     class HungryLizard
     {
+        private const string FileNameSelect = @"..\..\SelectScreen.txt";
         private const string FileNameStart = @"..\..\StartScreen.txt";
         private const string FileNameEnd = @"..\..\EndScreen.txt";
         private const string FileNameScores = @"..\..\Scores.txt";
@@ -31,6 +32,7 @@ namespace HungryLizard
         const int fieldWidthStart = 1;
         const int fieldWidthEnd = 97;
         public static bool AlreadyStarted = false;
+        public int level { get; set; }
 
 
         static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
@@ -49,6 +51,35 @@ namespace HungryLizard
         }
 
         /// Loading screen
+        static int SelectScreen()
+        {
+            using (StreamReader reader = new StreamReader(FileNameSelect))
+            {
+                string text = reader.ReadToEnd();
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(0, 5);
+                Console.WriteLine(text);
+                Console.WriteLine("\n\n\n\n");
+
+                int select = int.Parse(Console.ReadLine());
+                int level = int.MinValue;
+
+                switch (select)
+                {
+                    case 1: level = 30; break;
+                    case 2: level = 0; break;
+                    case 3: level = -30; break;
+                    case 4: level = -60; break;
+                    case 5: level = -100; break;
+                    default: Console.WriteLine("Try again!");
+                        break;
+                }
+
+                return level;
+            }
+        }
+
         static void StartScreen()
         {
             AlreadyStarted = true;
@@ -245,6 +276,7 @@ namespace HungryLizard
         static void Main()
         {
             InitConsole();
+            int level = SelectScreen();
             if (!AlreadyStarted)
             {
                 StartScreen();
@@ -257,7 +289,7 @@ namespace HungryLizard
 
             int loopCounter = 0;
             int randomLoop = 10;
-            int speed = 200;
+            int speed = 200 + level;
 
 
 
@@ -388,27 +420,27 @@ namespace HungryLizard
                 //Some levels
                 if (newHero.points > 300 && newHero.points < 500)
                 {
-                    speed = 180;
+                    speed = 180 + level;
                 }
                 else if (newHero.points > 500 && newHero.points < 700)
                 {
-                    speed = 160;
+                    speed = 160 + level;
                 }
                 else if (newHero.points > 700 && newHero.points < 1000)
                 {
-                    speed = 130;
+                    speed = 130 + level;
                 }
                 else if (newHero.points > 1000 && newHero.points < 1200)
                 {
-                    speed = 100;
+                    speed = 100 + level;
                 }
                 else if (newHero.points > 1200 && newHero.points < 1500)
                 {
-                    speed = 80;
+                    speed = 80 + level;
                 }
                 else if (newHero.points > 1500)//God mode
                 {
-                    speed = 70;
+                    speed = 70 + level;
                     InitConsole(ConsoleColor.Green);
                 }
 

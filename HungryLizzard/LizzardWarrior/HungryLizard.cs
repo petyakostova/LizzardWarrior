@@ -32,6 +32,7 @@ namespace HungryLizard
         static SoundPlayer music = new SoundPlayer(@"..\..\dungeon.wav");
         //static MediaPlayer music = new MediaPlayer();
         //static MediaPlayer burpSound = new MediaPlayer();
+        private const string FileNameSelect = @"..\..\SelectScreen.txt";
         private const string FileNameStart = @"..\..\StartScreen.txt";
         private const string FileNameEnd = @"..\..\EndScreen.txt";
         private const string FileNameScores = @"..\..\Scores.txt";
@@ -57,6 +58,40 @@ namespace HungryLizard
         }
 
         /// Loading screen
+        static int SelectScreen()
+        {
+            using (StreamReader reader = new StreamReader(FileNameSelect))
+            {
+                string text = reader.ReadToEnd();
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.SetCursorPosition(0, 5);
+                Console.WriteLine(text);
+                Console.WriteLine("\n\n");
+
+                int select;
+
+                do
+                {
+                    Console.WriteLine("\nChoose wisely, you don't want difficulty different than the listed.\nTrust me on this ;) If you feel adventurous, try the 5th option.");
+                } while (!int.TryParse(Console.ReadLine(), out select)
+                    || (select > 5 || select <= 0));
+
+                int level = int.MinValue;
+
+                switch (select)
+                {
+                    case 1: level = 30; break;
+                    case 2: level = 0; break;
+                    case 3: level = -30; break;
+                    case 4: level = -60; break;
+                    case 5: level = -100; break;
+                }
+
+                return level;
+            }
+        }
+
         static void StartScreen()
         {
             AlreadyStarted = true;
@@ -258,8 +293,10 @@ namespace HungryLizard
         static void Main()
         {
             InitConsole();
+            int level = SelectScreen();
             if (!AlreadyStarted)
             {
+                Console.Clear();
                 StartScreen();
                 InitConsole();
             }
@@ -270,7 +307,7 @@ namespace HungryLizard
 
             int loopCounter = 0;
             int randomLoop = 10;
-            int speed = 180;
+            int speed = 180 + level;
 
 
 
@@ -428,27 +465,27 @@ namespace HungryLizard
                 //Some levels
                 if (newHero.points > 300 && newHero.points < 500)
                 {
-                    speed = 150;
+                    speed = 150 + level;
                 }
                 else if (newHero.points > 500 && newHero.points < 700)
                 {
-                    speed = 120;
+                    speed = 120 + level;
                 }
                 else if (newHero.points > 700 && newHero.points < 1000)
                 {
-                    speed = 100;
+                    speed = 100 + level;
                 }
                 else if (newHero.points > 1000 && newHero.points < 1200)
                 {
-                    speed = 80;
+                    speed = 80 + level;
                 }
                 else if (newHero.points > 1200 && newHero.points < 1500)
                 {
-                    speed = 70;
+                    speed = 70 + level;
                 }
                 else if (newHero.points > 1500)//God mode
                 {
-                    speed = 65;
+                    speed = 65 + level;
                     //InitConsole(ConsoleColor.Green);
                 }
 

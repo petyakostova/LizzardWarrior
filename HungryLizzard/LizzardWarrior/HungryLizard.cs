@@ -6,7 +6,6 @@ using System.Threading;
 using System.IO;
 using System.Media;
 using System.Windows.Media;
-
 namespace HungryLizard
 {
     class Coordinate
@@ -29,13 +28,11 @@ namespace HungryLizard
 
     class HungryLizard
     {
-        static SoundPlayer music = new SoundPlayer(@"..\..\dungeon.wav");
-        //static MediaPlayer music = new MediaPlayer();
-        //static MediaPlayer burpSound = new MediaPlayer();
         //private const string FileNameSelect = @"..\..\SelectScreen.txt";
         private const string FileNameStart = @"..\..\StartScreen.txt";
         private const string FileNameEnd = @"..\..\EndScreen.txt";
         private const string FileNameScores = @"..\..\Scores.txt";
+        static string currentDir = Environment.CurrentDirectory;
         public static Creature Hero { get; set; }
         const int fieldWidthStart = 1;
         const int fieldWidthEnd = 97;
@@ -127,8 +124,10 @@ namespace HungryLizard
               */
             Console.Clear();
             Console.CursorVisible = true;
+            string GameOver = "GAME OVER!!!";
             string enterName = "Enter your name: ";
             string pressKey = "Press ENTER to play again, ESC to exit!";
+            PrintStringOnPosition((Console.WindowWidth / 2) - (GameOver.Length / 2), Console.WindowHeight / 2 + 3, GameOver, ConsoleColor.Red);
             PrintStringOnPosition((Console.WindowWidth / 2) - (enterName.Length / 2), Console.WindowHeight / 2 + 5, enterName);
             string name = Console.ReadLine();
             Console.CursorVisible = false;
@@ -225,7 +224,7 @@ namespace HungryLizard
             Console.BackgroundColor = color;
             Console.CursorVisible = false;
         }
-        static bool IsDead(Creature c)
+        static bool IsDead(Creature c, System.Windows.Media.MediaPlayer sound, System.Windows.Media.MediaPlayer soundGameOver)
         {
             if (c.lives > 0 && c.points >= 0)
             {
@@ -233,7 +232,9 @@ namespace HungryLizard
             }
             else
             {
-                music.Stop();
+                sound.Stop();
+                soundGameOver.Open(new Uri(currentDir + @"\smb_gameover.wav"));
+                soundGameOver.Play();
                 return true;
             }
         }
@@ -319,13 +320,17 @@ namespace HungryLizard
                 fliesEaten = 0
             };
 
-            using (music)
-            {
-                music.PlayLooping();
-            }
-            //music.Open(new Uri(@"dungeon.wav"));
-            //music.Play();
-            //burpSound.Open(new Uri(@"..\..\burp.wav"));
+            //initiate the sound efects
+            
+            var music = new System.Windows.Media.MediaPlayer();
+            var burpSound = new System.Windows.Media.MediaPlayer();
+            var hitSound = new System.Windows.Media.MediaPlayer();
+            var gameOverSound = new System.Windows.Media.MediaPlayer();
+
+            music.Open(new Uri(currentDir + @"\dungeon.wav"));
+            music.Play();
+            music.Volume = 0.2;
+            
             
             //Creates new flies
             Random randomGenerator = new Random();
@@ -399,6 +404,9 @@ namespace HungryLizard
                         PrintOnPosition(Hero.X + 3, Hero.Y + 2, '\\', ConsoleColor.Black);
                         PrintOnPosition(Hero.X + 4, Hero.Y + 3, '\\', ConsoleColor.Black);
                         PrintOnPosition(Hero.X - 2, Hero.Y + 3, '/', ConsoleColor.Black);
+
+                        hitSound.Open(new Uri(currentDir + @"\Hit.wav"));
+                        hitSound.Play();
                     }
                     else if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol != '[')
                     {
@@ -409,8 +417,10 @@ namespace HungryLizard
                         PrintOnPosition(Hero.X, Hero.Y, ' ', ConsoleColor.Black);
                         PrintOnPosition(Hero.X + 1, Hero.Y, ')', ConsoleColor.Black);
                         PrintOnPosition(Hero.X - 1, Hero.Y, ' ', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 2, Hero.Y, '(', ConsoleColor.Black);                   
-                        //burpSound.Play();
+                        PrintOnPosition(Hero.X - 2, Hero.Y, '(', ConsoleColor.Black);
+
+                        burpSound.Open(new Uri(currentDir + @"\burp.wav"));
+                        burpSound.Play();
                         newHero.fliesEaten++;
                     }
                     else if (fly.Y + 1 == Console.WindowHeight - 1)
@@ -452,7 +462,7 @@ namespace HungryLizard
 
                 PrintInfo(newHero);//Prints some info about the game
 
-                if (IsDead(newHero))//Checks if you have more than 0 lives
+                if (IsDead(newHero, music, gameOverSound))//Checks if you have more than 0 lives
                 {
                     if (newHero.points < 0)
                     {

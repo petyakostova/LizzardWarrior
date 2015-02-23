@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.IO;
+using System.Media;
+using System.Windows.Media;
 
 namespace HungryLizard
 {
@@ -18,12 +20,18 @@ namespace HungryLizard
         public int points { get; set; }
         public ConsoleColor color { get; set; }
         public char symbol { get; set; }
+        public string rowFirst { get; set; }
+        public string rowSecond { get; set; }
         public int lives { get; set; }
         public int fliesEaten { get; set; }
+        public bool motionChange { get; set; }
     }
 
     class HungryLizard
     {
+        static SoundPlayer music = new SoundPlayer(@"..\..\dungeon.wav");
+        //static MediaPlayer music = new MediaPlayer();
+        //static MediaPlayer burpSound = new MediaPlayer();
         private const string FileNameStart = @"..\..\StartScreen.txt";
         private const string FileNameEnd = @"..\..\EndScreen.txt";
         private const string FileNameScores = @"..\..\Scores.txt";
@@ -66,7 +74,7 @@ namespace HungryLizard
                     Console.ForegroundColor = ConsoleColor.White;
 
                     Console.Write('|');
-                    Thread.Sleep(20);
+                    Thread.Sleep(10);
                 }
             }
         }
@@ -82,6 +90,7 @@ namespace HungryLizard
                 Console.WriteLine("{0}{1}", text, c.points);
             }
               */
+            Console.Clear();
             Console.CursorVisible = true;
             string enterName = "Enter your name: ";
             string pressKey = "Press ENTER to play again, ESC to exit!";
@@ -189,6 +198,7 @@ namespace HungryLizard
             }
             else
             {
+                music.Stop();
                 return true;
             }
         }
@@ -211,7 +221,9 @@ namespace HungryLizard
             newRandomFly.X = p[r.Next(0, 7)];
             newRandomFly.Y = 1;
             newRandomFly.symbol = '%';
-            int flyType = r.Next(0, 4);
+            newRandomFly.rowFirst = null;
+            newRandomFly.rowSecond = null;
+            int flyType = r.Next(0, 3);
             switch (flyType)
             {
                 case 0:
@@ -229,11 +241,12 @@ namespace HungryLizard
                     newRandomFly.color = ConsoleColor.DarkGreen;
                     newRandomFly.points = 30;
                     break;
-                case 3:
-                    newRandomFly.symbol = '[';
-                    newRandomFly.color = ConsoleColor.DarkRed;
-                    newRandomFly.points = -100;
-                    break;
+                    //bricks are off till flies are finished!!!
+                //case 3:
+                //    newRandomFly.symbol = '[';
+                //    newRandomFly.color = ConsoleColor.DarkRed;
+                //    newRandomFly.points = -100;
+                //    break;
                 default:
                     break;
             }
@@ -253,11 +266,11 @@ namespace HungryLizard
 
             InitGame();
 
-            int[] positions = { 4, 19, 34, 49, 64, 79, 94 };
+            int[] positions = { 2, 17, 32, 47, 62, 77, 92 };
 
             int loopCounter = 0;
             int randomLoop = 10;
-            int speed = 200;
+            int speed = 180;
 
 
 
@@ -268,12 +281,20 @@ namespace HungryLizard
                 fliesEaten = 0
             };
 
+            using (music)
+            {
+                music.PlayLooping();
+            }
+            //music.Open(new Uri(@"dungeon.wav"));
+            //music.Play();
+            //burpSound.Open(new Uri(@"..\..\burp.wav"));
+            
             //Creates new flies
             Random randomGenerator = new Random();
             List<Creature> flies = new List<Creature>();
             while (true)
             {
-
+                
                 if (Console.KeyAvailable)//Checks for key pressed
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -304,7 +325,10 @@ namespace HungryLizard
                     newFly.Y = oldFly.Y + 1;
                     newFly.color = oldFly.color;
                     newFly.symbol = oldFly.symbol;
+                    newFly.rowFirst = oldFly.rowFirst;
+                    newFly.rowSecond = oldFly.rowSecond;
                     newFly.points = oldFly.points;
+                    newFly.motionChange = oldFly.motionChange;
                     if (newFly.Y < Console.WindowHeight - 1)
                     {
                         newFlies.Add(newFly);
@@ -323,7 +347,7 @@ namespace HungryLizard
                 foreach (Creature fly in flies)//Prints flies and checks for collision
                 {
 
-                    if ((fly.Y == Console.WindowHeight - 7 || fly.Y == Console.WindowHeight - 6) && (fly.X >= Hero.X-3 && fly.X <=Hero.X+3) && fly.symbol == '[')
+                    if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol == '[')
                     {
                         //Eating "bad animation"
                         PrintOnPosition(Hero.X, Hero.Y, '|', ConsoleColor.Black);
@@ -338,7 +362,7 @@ namespace HungryLizard
                         PrintOnPosition(Hero.X + 4, Hero.Y + 3, '\\', ConsoleColor.Black);
                         PrintOnPosition(Hero.X - 2, Hero.Y + 3, '/', ConsoleColor.Black);
                     }
-                    else if ((fly.Y == Console.WindowHeight - 7 || fly.Y == Console.WindowHeight - 6) && (fly.X >= Hero.X-3 && fly.X <=Hero.X+3) && fly.symbol != '[')
+                    else if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol != '[')
                     {
                         newHero.points += fly.points;
                         //Eating "animation"
@@ -347,11 +371,11 @@ namespace HungryLizard
                         PrintOnPosition(Hero.X, Hero.Y, ' ', ConsoleColor.Black);
                         PrintOnPosition(Hero.X + 1, Hero.Y, ')', ConsoleColor.Black);
                         PrintOnPosition(Hero.X - 1, Hero.Y, ' ', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 2, Hero.Y, '(', ConsoleColor.Black);
-
+                        PrintOnPosition(Hero.X - 2, Hero.Y, '(', ConsoleColor.Black);                   
+                        //burpSound.Play();
                         newHero.fliesEaten++;
                     }
-                    else if (fly.Y == Console.WindowHeight - 2)
+                    else if (fly.Y + 1 == Console.WindowHeight - 1)
                     {
                         //another condition for fixing brick behavior
                         if (fly.symbol == '[')
@@ -361,17 +385,33 @@ namespace HungryLizard
                         else
                         {
                             newHero.lives--;
-                            PrintOnPosition(fly.X, fly.Y, 'X', ConsoleColor.Red);
+                            //PrintOnPosition(fly.X, fly.Y, 'X', ConsoleColor.Red);
+                            PrintStringOnPosition(fly.X, fly.Y + 1, " X ", fly.color);
+                            PrintStringOnPosition(fly.X, fly.Y, "XXX", fly.color);
+                           
                         }
 
                     }
                     else
                     {
-                        PrintOnPosition(fly.X, fly.Y, fly.symbol, fly.color);
+                        if (fly.motionChange == true)
+                        {
+                            fly.rowSecond = @"/|\";
+                            fly.rowFirst = @" "" ";
+                        }
+                        else
+                        {
+                            fly.rowFirst = @"\""/";
+                            fly.rowSecond = @" | ";
+                        }
+                        PrintStringOnPosition(fly.X, fly.Y + 1, fly.rowSecond, fly.color);
+                        PrintStringOnPosition(fly.X, fly.Y, fly.rowFirst, fly.color);
                         aliveFlies.Add(fly);
+                        fly.motionChange = !fly.motionChange;
                     }
                 }
                 flies = aliveFlies;
+
                 PrintInfo(newHero);//Prints some info about the game
 
                 if (IsDead(newHero))//Checks if you have more than 0 lives
@@ -388,32 +428,33 @@ namespace HungryLizard
                 //Some levels
                 if (newHero.points > 300 && newHero.points < 500)
                 {
-                    speed = 180;
+                    speed = 150;
                 }
                 else if (newHero.points > 500 && newHero.points < 700)
                 {
-                    speed = 160;
+                    speed = 120;
                 }
                 else if (newHero.points > 700 && newHero.points < 1000)
                 {
-                    speed = 130;
+                    speed = 100;
                 }
                 else if (newHero.points > 1000 && newHero.points < 1200)
                 {
-                    speed = 100;
+                    speed = 80;
                 }
                 else if (newHero.points > 1200 && newHero.points < 1500)
                 {
-                    speed = 80;
+                    speed = 70;
                 }
                 else if (newHero.points > 1500)//God mode
                 {
-                    speed = 70;
-                    InitConsole(ConsoleColor.Green);
+                    speed = 65;
+                    //InitConsole(ConsoleColor.Green);
                 }
 
                 Thread.Sleep(speed);
                 loopCounter++;
+
             }
         }
 

@@ -21,6 +21,7 @@ namespace HungryLizard
         public char symbol { get; set; }
         public string rowFirst { get; set; }
         public string rowSecond { get; set; }
+        public string rowThird { get; set; }
         public int lives { get; set; }
         public int fliesEaten { get; set; }
         public bool motionChange { get; set; }
@@ -175,7 +176,7 @@ namespace HungryLizard
             {
                 //RemoveHero();
                 //Console.Clear();
-                PrintStringOnPosition(newHero.X - 3, newHero.Y,     @"\_(\_\", ConsoleColor.Black);
+                PrintStringOnPosition(newHero.X - 3, newHero.Y, @"\_(\_\", ConsoleColor.Black);
                 PrintStringOnPosition(newHero.X - 3, newHero.Y + 1, @"   \\_", ConsoleColor.Black);
                 PrintStringOnPosition(newHero.X - 3, newHero.Y + 2, @"  <`\\>", ConsoleColor.Black);
                 PrintStringOnPosition(newHero.X - 3, newHero.Y + 3, @"     ))", ConsoleColor.Black);
@@ -259,7 +260,8 @@ namespace HungryLizard
             newRandomFly.symbol = '%';
             newRandomFly.rowFirst = null;
             newRandomFly.rowSecond = null;
-            int flyType = r.Next(0, 3);
+            newRandomFly.rowThird = null;
+            int flyType = r.Next(0, 4);
             switch (flyType)
             {
                 case 0:
@@ -277,12 +279,11 @@ namespace HungryLizard
                     newRandomFly.color = ConsoleColor.DarkGreen;
                     newRandomFly.points = 30;
                     break;
-                    //bricks are off till flies are finished!!!
-                //case 3:
-                //    newRandomFly.symbol = '[';
-                //    newRandomFly.color = ConsoleColor.DarkRed;
-                //    newRandomFly.points = -100;
-                //    break;
+                case 3:
+                    newRandomFly.symbol = '[';
+                    newRandomFly.color = ConsoleColor.DarkRed;
+                    newRandomFly.points = -100;
+                    break;
                 default:
                     break;
             }
@@ -389,10 +390,11 @@ namespace HungryLizard
 
                 foreach (Creature fly in flies)//Prints flies and checks for collision
                 {
-
-                    if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol == '[')
+                    //collision with lizard
+                    if ((fly.Y + 2 == Console.WindowHeight - 7 || fly.Y + 2 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol == '[')
                     {
-                        //Eating "bad animation"
+                        newHero.points += fly.points;
+                        //Smash head animation"
                         PrintOnPosition(Hero.X, Hero.Y, '|', ConsoleColor.Black);
                         PrintOnPosition(Hero.X + 1, Hero.Y, '/', ConsoleColor.Black);
                         PrintOnPosition(Hero.X - 1, Hero.Y, '\\', ConsoleColor.Black);
@@ -408,7 +410,7 @@ namespace HungryLizard
                         hitSound.Open(new Uri(currentDir + @"\Hit.wav"));
                         hitSound.Play();
                     }
-                    else if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol != '[')
+                    else if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol == '*')
                     {
                         newHero.points += fly.points;
                         //Eating "animation"
@@ -423,37 +425,47 @@ namespace HungryLizard
                         burpSound.Play();
                         newHero.fliesEaten++;
                     }
-                    else if (fly.Y + 1 == Console.WindowHeight - 1)
+
+                        //collision with floor
+                    else if (fly.Y + 1 == Console.WindowHeight - 1 || fly.Y + 2 == Console.WindowHeight - 1)
                     {
-                        //another condition for fixing brick behavior
                         if (fly.symbol == '[')
                         {
-                            PrintOnPosition(fly.X, fly.Y, 'V', ConsoleColor.Green);
+                            PrintOnPosition(fly.X, fly.Y + 1, 'V', ConsoleColor.Green);
                         }
                         else
                         {
                             newHero.lives--;
-                            //PrintOnPosition(fly.X, fly.Y, 'X', ConsoleColor.Red);
-                            PrintStringOnPosition(fly.X, fly.Y + 1, " X ", fly.color);
-                            PrintStringOnPosition(fly.X, fly.Y, "XXX", fly.color);
-                           
+                            PrintStringOnPosition(fly.X, fly.Y + 1, " X ", ConsoleColor.Red);
+                            PrintStringOnPosition(fly.X, fly.Y, "XXX", ConsoleColor.Red);
                         }
 
                     }
                     else
                     {
-                        if (fly.motionChange == true)
+                        if (fly.symbol == '[')
                         {
-                            fly.rowSecond = @"/|\";
-                            fly.rowFirst = @" "" ";
+                            fly.rowThird = @"|_|";
+                            fly.rowSecond = @"| |";
+                            fly.rowFirst = @" _ ";
+                            PrintStringOnPosition(fly.X, fly.Y + 2, fly.rowThird, fly.color);
                         }
                         else
                         {
-                            fly.rowFirst = @"\""/";
-                            fly.rowSecond = @" | ";
+                            if (fly.motionChange == true)
+                            {
+                                fly.rowSecond = @"/|\";
+                                fly.rowFirst = @" "" ";
+                            }
+                            else
+                            {
+                                fly.rowFirst = @"\""/";
+                                fly.rowSecond = @" | ";
+                            }
                         }
                         PrintStringOnPosition(fly.X, fly.Y + 1, fly.rowSecond, fly.color);
                         PrintStringOnPosition(fly.X, fly.Y, fly.rowFirst, fly.color);
+
                         aliveFlies.Add(fly);
                         fly.motionChange = !fly.motionChange;
                     }

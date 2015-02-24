@@ -4,3 +4,7 @@ bin/
 debug/
 packages
 packages/
+Scores.txt
+**/Scores.txt
+*.suo
+**/*.suo

@@ -54,7 +54,7 @@ class StartScreen
                 switch (key.KeyChar)
                 {
                     case '1': levelSelected = 30; break;
-                    case '2': levelSelected = 0; break;
+                    case '2': levelSelected = 1; break;
                     case '3': levelSelected = -30; break;
                     case '4': levelSelected = -60; break;
                     case '5': levelSelected = -100; break;

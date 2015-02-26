@@ -19,8 +19,8 @@ class Score
             string line = string.Empty;
             while ((line = file.ReadLine()) != null)
             {
-                string[] currLine = line.Split(' ');
-                scores.Add(currLine[0] + " " +currLine[1], int.Parse(currLine[2]));
+                string[] currLine = line.Split('-');
+                scores.Add(currLine[0] + "-" +currLine[1], int.Parse(currLine[2]));
             }
         }
             
@@ -36,7 +36,7 @@ class Score
             
             foreach (var pair in sortedScores)
             {
-                file.WriteLine("{0} - {1}", pair.Key.Split(' ').GetValue(0), pair.Value);
+                file.WriteLine("{0} - {1}", pair.Key.Split('-').GetValue(0), pair.Value);
             }
         }
         using (StreamReader file = new StreamReader(HungryLizard.MainGame.FileNameSortedScores, true))

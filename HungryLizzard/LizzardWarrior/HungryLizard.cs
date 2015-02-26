@@ -84,10 +84,9 @@ namespace HungryLizard
                     finally
                     {
                         Console.WriteLine("I don't see this one listed!\nTry again!\n");
-                    }
-
-                    
-                } while (select > 5 || select <= 0);
+                    }                    
+                } 
+                while (select > 5 || select <= 0);
 
                 int level = int.MinValue;
 
@@ -198,12 +197,10 @@ namespace HungryLizard
 
                 Hero = newHero;
             }
-
         }
 
         static void RemoveHero()
         {
-
             //Console.BackgroundColor = ConsoleColor.Green;
             Console.SetCursorPosition(Hero.X, Hero.Y);
             Console.Write(" ");
@@ -220,6 +217,7 @@ namespace HungryLizard
                 return false;
             }
         }
+
         static void DrawGrid()//draws frame
         {
             Console.ForegroundColor = ConsoleColor.Black;
@@ -228,7 +226,6 @@ namespace HungryLizard
                 Console.SetCursorPosition(fieldWidthEnd + 2, j);
                 Console.Write("|");
             }
-
         }
 
         /// Set Console width and height, set Console background color and make cursor invisible
@@ -301,13 +298,13 @@ namespace HungryLizard
                 default:
                     break;
             }
-
             return newRandomFly;
         }
 
         //Main
         static void Main()
         {
+            Console.Title = "Hungry Lizard";
             InitConsole();
             int level = SelectScreen();
             if (!AlreadyStarted)
@@ -315,7 +312,6 @@ namespace HungryLizard
                 Console.Clear();
                 StartScreen();
                 InitConsole();
-
             }
 
             InitGame();
@@ -325,8 +321,6 @@ namespace HungryLizard
             int loopCounter = 0;
             int randomLoop = 10;
             int speed = 180 + level;
-
-
 
             Creature newHero = new Creature()
             {
@@ -344,15 +338,13 @@ namespace HungryLizard
 
             music.Open(new Uri(currentDir + @"\dungeon.wav"));
             music.Play();
-            music.Volume = 0.2;
-            
+            music.Volume = 0.2;            
             
             //Creates new flies
             Random randomGenerator = new Random();
             List<Creature> flies = new List<Creature>();
             while (true)
-            {
-                
+            {                
                 if (Console.KeyAvailable)//Checks for key pressed
                 {
                     ConsoleKeyInfo keyInfo = Console.ReadKey(true);
@@ -391,14 +383,12 @@ namespace HungryLizard
                     {
                         newFlies.Add(newFly);
                     }
-
                 }
                 flies = newFlies;
 
                 Console.Clear();//Clears the console
                 //DrawGrid();
                 MoveHero(0);//Draws hero on its position
-
 
                 List<Creature> aliveFlies = new List<Creature>();
 
@@ -453,7 +443,6 @@ namespace HungryLizard
                             PrintStringOnPosition(fly.X, fly.Y + 1, " X ", ConsoleColor.Red);
                             PrintStringOnPosition(fly.X, fly.Y, "XXX", ConsoleColor.Red);
                         }
-
                     }
                     else
                     {
@@ -531,6 +520,5 @@ namespace HungryLizard
 
             }
         }
-
     }
 }

@@ -24,12 +24,12 @@ class EndScreen
         string pressKey = "Press ENTER to play again, ESC to exit!";;
         HungryLizard.MainGame.PrintStringOnPosition(Console.WindowWidth - "Team LizardWarrior".Length-1, Console.WindowHeight - 1, "Team LizardWarrior");
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - ("Your Score Was: ".Length + c.ToString().Length)/2, Console.WindowHeight - 3, "Your Score Was: " + c.ToString());
-        HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - ("Highest Score: Made by  ".Length + Score.highestScore.Length) / 2, Console.WindowHeight - 2, "Highest Score: Made by  " + Score.highestScore);
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (enterName.Length / 2), Console.WindowHeight / 2 + 5, enterName);
         string name = Console.ReadLine();
         Console.CursorVisible = false;
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (pressKey.Length / 2), Console.WindowHeight / 2 + 6, pressKey);
         WriteInFile(c, name);
+        HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - ("Highest Score: Made by  ".Length + Score.highestScore.Length) / 2, Console.WindowHeight - 2, "Highest Score: Made by  " + Score.highestScore);       
         ConsoleKeyInfo key = Console.ReadKey();
         if (key.Key == ConsoleKey.Enter)
         {

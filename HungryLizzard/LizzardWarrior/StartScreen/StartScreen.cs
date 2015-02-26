@@ -9,7 +9,7 @@ class StartScreen
 
     public static int SelectLevel()
     {
-        HungryLizard.MainGame.InitConsole(ConsoleColor.Black);
+        HungryLizard.MainGame.InitConsole(ConsoleColor.White, ConsoleColor.Black);
         int levelSelected=0;
         string select = @"
     /$$$$$$  /$$$$$$$$ /$$       /$$$$$$$$  /$$$$$$  /$$$$$$$$       /$$       /$$$$$$$$ /$$    /$$ /$$$$$$$$ /$$          
@@ -72,6 +72,7 @@ class StartScreen
     public static int DrawScreen()
     {
 
+        HungryLizard.MainGame.InitConsole(ConsoleColor.White, ConsoleColor.Black);
         string screen = @"        
   *------------------------------------------------------------------------------------------------------------------------*
   *   ___________.__               ___ ___                                     .____    .__                         .___   *
@@ -105,11 +106,10 @@ class StartScreen
                                                       ░░░▒▒▒▒▒▓▓▓▒▒▒▒▒░░░
             		                        
                                                         Catch the fly!";
-        HungryLizard.MainGame.InitConsole(ConsoleColor.Black);
         Console.Write(screen);
         for (int i = 0; i < Console.WindowWidth; i++)
         {
-            HungryLizard.MainGame.PrintOnPosition(i, Console.WindowHeight - 1, '|', ConsoleColor.White);
+            HungryLizard.MainGame.PrintOnPosition(i, Console.WindowHeight - 1, '|', ConsoleColor.Black);
             Thread.Sleep(15);
         }
         return SelectLevel();

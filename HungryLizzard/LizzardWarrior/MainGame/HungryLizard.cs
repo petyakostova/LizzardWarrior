@@ -188,7 +188,7 @@ namespace HungryLizard
         {
             Console.Title = "The Hungry Lizard";
             
-            InitConsole(ConsoleColor.Black);
+            InitConsole();
             int level = 0;
             if (!AlreadyStarted)
             {

@@ -21,6 +21,7 @@ class EndScreen
         Console.CursorVisible = true;
         string enterName = "Enter your name: ";
         string pressKey = "Press ENTER to play again, ESC to exit!";;
+        HungryLizard.MainGame.PrintStringOnPosition(Console.WindowWidth - "Team LizardWarrior".Length-1, Console.WindowHeight - 1, "Team LizardWarrior");
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (enterName.Length / 2), Console.WindowHeight / 2 + 5, enterName);
         string name = Console.ReadLine();
         Console.CursorVisible = false;

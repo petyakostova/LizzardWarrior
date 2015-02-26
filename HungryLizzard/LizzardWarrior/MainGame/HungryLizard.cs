@@ -37,6 +37,7 @@ namespace HungryLizard
         public static bool AlreadyStarted = false;
         public static ConsoleColor lizardColor = ConsoleColor.Black;
         public static ConsoleColor backroundColor = ConsoleColor.White;
+        public static int level = 0;
 
 
         public static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
@@ -188,15 +189,13 @@ namespace HungryLizard
         public static void Main()
         {
             Console.Title = "The Hungry Lizard";
-            
+
             InitConsole();
-            int level = 0;
             if (!AlreadyStarted)
             {
                 level = StartScreen.DrawScreen();
                 AlreadyStarted = true;
             }
-
             InitConsole(backroundColor);
             InitGame();
 

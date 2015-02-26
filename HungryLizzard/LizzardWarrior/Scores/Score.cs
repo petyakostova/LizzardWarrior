@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 class Score
 {
-    public static string highestScore = string.Empty;
+    public static string highestScore = "still noone ;p";
     public static void SortScores()
     {
 

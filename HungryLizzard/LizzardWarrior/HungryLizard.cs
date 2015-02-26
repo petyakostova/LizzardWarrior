@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.IO;
 using System.Media;
 using System.Windows.Media;
 namespace HungryLizard
@@ -27,20 +26,19 @@ namespace HungryLizard
         public bool motionChange { get; set; }
     }
 
-    class HungryLizard
+    class MainGame
     {
-        private const string FileNameSelect = @"..\..\SelectScreen.txt";
-        private const string FileNameStart = @"..\..\StartScreen.txt";
-        private const string FileNameEnd = @"..\..\EndScreen.txt";
-        private const string FileNameScores = @"..\..\Scores.txt";
+        public const string FileNameScores = @"..\..\Scores.txt";
         static string currentDir = Environment.CurrentDirectory;
         public static Creature Hero { get; set; }
         const int fieldWidthStart = 1;
         const int fieldWidthEnd = 97;
         public static bool AlreadyStarted = false;
+        public static ConsoleColor lizardColor = ConsoleColor.Black;
+        public static ConsoleColor backroundColor = ConsoleColor.White;
 
 
-        static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
+        public static void PrintOnPosition(int x, int y, char c, ConsoleColor color = ConsoleColor.White)
         {
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = color;
@@ -48,114 +46,11 @@ namespace HungryLizard
 
         }
 
-        static void PrintStringOnPosition(int x, int y, string str, ConsoleColor color = ConsoleColor.Black)
+        public static void PrintStringOnPosition(int x, int y, string str, ConsoleColor color = ConsoleColor.Black)
         {
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = color;
             Console.Write(str);
-        }
-
-        /// Loading screen
-        static int SelectScreen()
-        {
-            using (StreamReader reader = new StreamReader(FileNameSelect))
-            {
-                string text = reader.ReadToEnd();
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, 5);
-                Console.WriteLine(text);
-                Console.WriteLine("\n\n");
-
-                int select = int.MinValue;
-                Console.WriteLine("\nChoose wisely, you don't want difficulty different than the listed.\nTrust me on this ;) If you feel adventurous, try the 5th option.\n");
-
-                do
-                {
-                    try
-                    {
-                        select = int.Parse(Console.ReadLine());
-                    }
-                    catch (System.FormatException)
-                    {
-
-                        Console.WriteLine("\nAre you sure that this is a number? Because I'm not.");
-                    }
-                    finally
-                    {
-                        Console.WriteLine("I don't see this one listed!\nTry again!\n");
-                    }                    
-                } 
-                while (select > 5 || select <= 0);
-
-                int level = int.MinValue;
-
-                switch (select)
-                {
-                    case 1: level = 30; break;
-                    case 2: level = 0; break;
-                    case 3: level = -30; break;
-                    case 4: level = -60; break;
-                    case 5: level = -100; break;
-                }
-
-                return level;
-            }
-        }
-
-        static void StartScreen()
-        {
-            AlreadyStarted = true;
-            using (StreamReader reader = new StreamReader(FileNameStart))
-            {
-                string text = reader.ReadToEnd();
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.SetCursorPosition(0, 5);
-                Console.WriteLine(text);
-                Console.WriteLine("\n\n\n\n");
-
-                for (int i = 0; i < Console.WindowWidth; i++)
-                {
-                    Console.ForegroundColor = ConsoleColor.White;
-
-                    Console.Write('|');
-                    Thread.Sleep(10);
-                }
-            }
-        }
-
-        static void EndScreen(Creature c)
-        {
-            /*
-            using (StreamReader reader = new StreamReader(FileNameEnd))
-            {
-                string text = reader.ReadToEnd();
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Black;
-                Console.WriteLine("{0}{1}", text, c.points);
-            }
-              */
-            Console.Clear();
-            Console.CursorVisible = true;
-            string GameOver = "GAME OVER!!!";
-            string enterName = "Enter your name: ";
-            string pressKey = "Press ENTER to play again, ESC to exit!";
-            PrintStringOnPosition((Console.WindowWidth / 2) - (GameOver.Length / 2), Console.WindowHeight / 2 + 3, GameOver, ConsoleColor.Red);
-            PrintStringOnPosition((Console.WindowWidth / 2) - (enterName.Length / 2), Console.WindowHeight / 2 + 5, enterName);
-            string name = Console.ReadLine();
-            Console.CursorVisible = false;
-            PrintStringOnPosition((Console.WindowWidth / 2) - (pressKey.Length / 2), Console.WindowHeight / 2 + 6, pressKey);
-            WriteHighScore(c, name);
-            ConsoleKeyInfo key = Console.ReadKey();
-            if (key.Key == ConsoleKey.Enter)
-            {
-                Main();
-            }
-            else if (key.Key == ConsoleKey.Escape)
-            {
-                Environment.Exit(0);
-            }
         }
 
         static void InitGame()//initializes the game and sets the Hero in the middle of the console
@@ -170,14 +65,6 @@ namespace HungryLizard
             MoveHero(0);
         }
 
-        static void WriteHighScore(Creature c, string s)
-        {
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(FileNameScores, true))
-            {
-                file.WriteLine("{0} - {1}", s, c.points);
-            }
-        }
-
         static void MoveHero(int a)//moves the Hero, where a is number of positions its moved
         {
             Creature newHero = new Creature
@@ -187,24 +74,17 @@ namespace HungryLizard
             };
             if (CanMove(newHero))
             {
-                //RemoveHero();
                 //Console.Clear();
-                PrintStringOnPosition(newHero.X - 3, newHero.Y, @"\_(\_\", ConsoleColor.Black);
-                PrintStringOnPosition(newHero.X - 3, newHero.Y + 1, @"   \\_", ConsoleColor.Black);
-                PrintStringOnPosition(newHero.X - 3, newHero.Y + 2, @"  <`\\>", ConsoleColor.Black);
-                PrintStringOnPosition(newHero.X - 3, newHero.Y + 3, @"     ))", ConsoleColor.Black);
-                PrintStringOnPosition(newHero.X - 3, newHero.Y + 4, @"     ( ", ConsoleColor.Black);
+                PrintStringOnPosition(newHero.X - 3, newHero.Y, @"\_(\_\", lizardColor);
+                PrintStringOnPosition(newHero.X - 3, newHero.Y + 1, @"   \\_", lizardColor);
+                PrintStringOnPosition(newHero.X - 3, newHero.Y + 2, @"  <`\\>", lizardColor);
+                PrintStringOnPosition(newHero.X - 3, newHero.Y + 3, @"     ))", lizardColor);
+                PrintStringOnPosition(newHero.X - 3, newHero.Y + 4, @"     ( ", lizardColor);
 
                 Hero = newHero;
             }
         }
 
-        static void RemoveHero()
-        {
-            //Console.BackgroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(Hero.X, Hero.Y);
-            Console.Write(" ");
-        }
 
         static bool CanMove(Coordinate c)//checks if Hero is not out of borders of console
         {
@@ -229,11 +109,13 @@ namespace HungryLizard
         }
 
         /// Set Console width and height, set Console background color and make cursor invisible
-        static void InitConsole(ConsoleColor color = ConsoleColor.White)
+        public static void InitConsole(ConsoleColor color = ConsoleColor.White, ConsoleColor fColor = ConsoleColor.White)
         {
+            Console.Clear();
             Console.BufferHeight = Console.WindowHeight = 40;
             Console.BufferWidth = Console.WindowWidth = 126;
             Console.BackgroundColor = color;
+            Console.ForegroundColor = fColor;
             Console.CursorVisible = false;
         }
         static bool IsDead(Creature c, System.Windows.Media.MediaPlayer sound, System.Windows.Media.MediaPlayer soundGameOver)
@@ -302,18 +184,19 @@ namespace HungryLizard
         }
 
         //Main
-        static void Main()
+        public static void Main()
         {
-            Console.Title = "Hungry Lizard";
-            InitConsole();
-            int level = SelectScreen();
+            Console.Title = "The Hungry Lizard";
+            
+            InitConsole(ConsoleColor.Black);
+            int level = 0;
             if (!AlreadyStarted)
             {
-                Console.Clear();
-                StartScreen();
-                InitConsole();
+                level = StartScreen.DrawScreen();
+                AlreadyStarted = true;
             }
 
+            InitConsole(backroundColor);
             InitGame();
 
             int[] positions = { 2, 17, 32, 47, 62, 77, 92 };
@@ -399,17 +282,17 @@ namespace HungryLizard
                     {
                         newHero.points += fly.points;
                         //Smash head animation"
-                        PrintOnPosition(Hero.X, Hero.Y, '|', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X + 1, Hero.Y, '/', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 1, Hero.Y, '\\', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 2, Hero.Y, '_', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 3, Hero.Y, '_', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X + 2, Hero.Y, '_', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X + 3, Hero.Y, '_', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 1, Hero.Y + 2, '/', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X + 3, Hero.Y + 2, '\\', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X + 4, Hero.Y + 3, '\\', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 2, Hero.Y + 3, '/', ConsoleColor.Black);
+                        PrintOnPosition(Hero.X, Hero.Y, '|', lizardColor);
+                        PrintOnPosition(Hero.X + 1, Hero.Y, '/', lizardColor);
+                        PrintOnPosition(Hero.X - 1, Hero.Y, '\\', lizardColor);
+                        PrintOnPosition(Hero.X - 2, Hero.Y, '_', lizardColor);
+                        PrintOnPosition(Hero.X - 3, Hero.Y, '_', lizardColor);
+                        PrintOnPosition(Hero.X + 2, Hero.Y, '_', lizardColor);
+                        PrintOnPosition(Hero.X + 3, Hero.Y, '_', lizardColor);
+                        PrintOnPosition(Hero.X - 1, Hero.Y + 2, '/', lizardColor);
+                        PrintOnPosition(Hero.X + 3, Hero.Y + 2, '\\', lizardColor);
+                        PrintOnPosition(Hero.X + 4, Hero.Y + 3, '\\', lizardColor);
+                        PrintOnPosition(Hero.X - 2, Hero.Y + 3, '/', lizardColor);
 
                         hitSound.Open(new Uri(currentDir + @"\Hit.wav"));
                         hitSound.Play();
@@ -418,12 +301,12 @@ namespace HungryLizard
                     {
                         newHero.points += fly.points;
                         //Eating "animation"
-                        PrintOnPosition(Hero.X - 1, Hero.Y - 1, '\\', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X, Hero.Y - 1, '/', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X, Hero.Y, ' ', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X + 1, Hero.Y, ')', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 1, Hero.Y, ' ', ConsoleColor.Black);
-                        PrintOnPosition(Hero.X - 2, Hero.Y, '(', ConsoleColor.Black);
+                        PrintOnPosition(Hero.X - 1, Hero.Y - 1, '\\', lizardColor);
+                        PrintOnPosition(Hero.X, Hero.Y - 1, '/', lizardColor);
+                        PrintOnPosition(Hero.X, Hero.Y, ' ', lizardColor);
+                        PrintOnPosition(Hero.X + 1, Hero.Y, ')', lizardColor);
+                        PrintOnPosition(Hero.X - 1, Hero.Y, ' ', lizardColor);
+                        PrintOnPosition(Hero.X - 2, Hero.Y, '(', lizardColor);
 
                         burpSound.Open(new Uri(currentDir + @"\burp.wav"));
                         burpSound.Play();
@@ -483,7 +366,7 @@ namespace HungryLizard
                     {
                         newHero.points = 0;
                     }
-                    EndScreen(newHero);
+                    EndScreen.DrawEnd(Hero);
                 }
 
                 //DrawGrid();

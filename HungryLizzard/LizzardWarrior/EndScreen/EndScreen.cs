@@ -7,8 +7,9 @@ using System.IO;
 
 class EndScreen
 {
-    public static void DrawEnd(HungryLizard.Creature c)
+    public static void DrawEnd(int c)
     {
+        
         HungryLizard.MainGame.InitConsole();
         string end = @"
                                  _____          __  __ ______    ______      ________ _____  _ 
@@ -22,6 +23,8 @@ class EndScreen
         string enterName = "Enter your name: ";
         string pressKey = "Press ENTER to play again, ESC to exit!";;
         HungryLizard.MainGame.PrintStringOnPosition(Console.WindowWidth - "Team LizardWarrior".Length-1, Console.WindowHeight - 1, "Team LizardWarrior");
+        HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - ("Your Score Was: ".Length + c.ToString().Length)/2, Console.WindowHeight - 3, "Your Score Was: " + c.ToString());
+        HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - ("Highest Score: Made by  ".Length + Score.highestScore.Length) / 2, Console.WindowHeight - 2, "Highest Score: Made by  " + Score.highestScore);
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (enterName.Length / 2), Console.WindowHeight / 2 + 5, enterName);
         string name = Console.ReadLine();
         Console.CursorVisible = false;
@@ -37,12 +40,14 @@ class EndScreen
             Environment.Exit(0);
         }
     }
-    public static void WriteInFile(HungryLizard.Creature c, string name)
+    public static void WriteInFile(int c, string name)
     {
+        var dateTime = DateTime.Now;
         using (System.IO.StreamWriter file = new System.IO.StreamWriter(HungryLizard.MainGame.FileNameScores, true))
         {
-            file.WriteLine("{0} - {1}", name, c.points);
+            file.WriteLine("{0} {1:MM/dd/yyH:mm:ss} {2}", name, dateTime, c);
         }
+        Score.SortScores();
     }
 }
 

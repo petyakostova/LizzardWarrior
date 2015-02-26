@@ -28,7 +28,8 @@ namespace HungryLizard
 
     class MainGame
     {
-        public const string FileNameScores = @"..\..\Scores.txt";
+        public const string FileNameScores = @"..\..\Scores\Scores.txt";
+        public const string FileNameSortedScores = @"..\..\Scores\SortedScores.txt";
         static string currentDir = Environment.CurrentDirectory;
         public static Creature Hero { get; set; }
         const int fieldWidthStart = 1;
@@ -362,11 +363,13 @@ namespace HungryLizard
 
                 if (IsDead(newHero, music, gameOverSound))//Checks if you have more than 0 lives
                 {
-                    if (newHero.points < 0)
+                    if (newHero.points<0)
                     {
                         newHero.points = 0;
                     }
-                    EndScreen.DrawEnd(Hero);
+                    EndScreen.DrawEnd(newHero.points);
+
+                    
                 }
 
                 //DrawGrid();

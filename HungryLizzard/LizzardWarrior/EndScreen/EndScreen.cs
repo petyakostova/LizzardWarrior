@@ -45,7 +45,7 @@ class EndScreen
         var dateTime = DateTime.Now;
         using (System.IO.StreamWriter file = new System.IO.StreamWriter(HungryLizard.MainGame.FileNameScores, true))
         {
-            file.WriteLine("{0}-{1:MM/dd/yyH:mm:ss}-{2}", name, dateTime, c);
+            file.WriteLine(" {0}-{1:MM/dd/yyH:mm:ss}-{2}", name, dateTime, c);
         }
         Score.SortScores();
     }

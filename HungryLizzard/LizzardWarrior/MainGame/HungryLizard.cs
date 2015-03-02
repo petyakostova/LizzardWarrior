@@ -128,9 +128,17 @@ namespace HungryLizard
             }
             else
             {
-                sound.Stop();
-                soundGameOver.Open(new Uri(currentDir + @"\MainGame\Sounds\smb_gameover.wav"));
-                soundGameOver.Play();
+                try
+                {
+                    sound.Stop();
+                    soundGameOver.Open(new Uri(currentDir + @"\MainGame\Sounds\smb_gameover.wav"));
+                    soundGameOver.Play();
+                }
+                catch(Exception x)
+                {
+                    InitConsole();
+                    Console.WriteLine(x.Message);
+                }
                 return true;
             }
         }
@@ -219,9 +227,17 @@ namespace HungryLizard
             var hitSound = new System.Windows.Media.MediaPlayer();
             var gameOverSound = new System.Windows.Media.MediaPlayer();
 
-            music.Open(new Uri(currentDir + @"\MainGame\Sounds\dungeon.wav"));
-            music.Play();
-            music.Volume = 0.2;            
+            try
+            {
+                music.Open(new Uri(currentDir + @"\MainGame\Sounds\dungeon.wav"));
+                music.Play();
+                music.Volume = 0.2;
+            }
+            catch(Exception x)
+            {
+                InitConsole();
+                Console.WriteLine(x.Message);
+            }
             
             //Creates new flies
             Random randomGenerator = new Random();
@@ -294,8 +310,16 @@ namespace HungryLizard
                         PrintOnPosition(Hero.X + 4, Hero.Y + 3, '\\', lizardColor);
                         PrintOnPosition(Hero.X - 2, Hero.Y + 3, '/', lizardColor);
 
-                        hitSound.Open(new Uri(currentDir + @"\MainGame\Sounds\Hit.wav"));
-                        hitSound.Play();
+                        try
+                        {
+                            hitSound.Open(new Uri(currentDir + @"\MainGame\Sounds\Hit.wav"));
+                            hitSound.Play();
+                        }
+                        catch(Exception x)
+                        {
+                            InitConsole();
+                            Console.WriteLine(x.Message);
+                        }
                     }
                     else if ((fly.Y + 1 == Console.WindowHeight - 7 || fly.Y + 1 == Console.WindowHeight - 6) && (fly.X + 1 >= Hero.X - 3 && fly.X + 1 <= Hero.X + 3) && fly.symbol == '*')
                     {
@@ -308,8 +332,16 @@ namespace HungryLizard
                         PrintOnPosition(Hero.X - 1, Hero.Y, ' ', lizardColor);
                         PrintOnPosition(Hero.X - 2, Hero.Y, '(', lizardColor);
 
-                        burpSound.Open(new Uri(currentDir + @"\MainGame\Sounds\burp.wav"));
-                        burpSound.Play();
+                        try
+                        {
+                            burpSound.Open(new Uri(currentDir + @"\MainGame\Sounds\burp.wav"));
+                            burpSound.Play();
+                        }
+                        catch(Exception x)
+                        {
+                            InitConsole();
+                            Console.WriteLine(x.Message);
+                        }
                         newHero.fliesEaten++;
                     }
 
@@ -366,7 +398,15 @@ namespace HungryLizard
                     {
                         newHero.points = 0;
                     }
-                    EndScreen.DrawEnd(newHero.points);
+                    try
+                    {
+                        EndScreen.DrawEnd(newHero.points);
+                    }
+                    catch(Exception x)
+                    {
+                        InitConsole();
+                        Console.WriteLine(x.Message);
+                    }
 
                     
                 }

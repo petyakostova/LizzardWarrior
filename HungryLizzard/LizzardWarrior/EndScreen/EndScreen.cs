@@ -27,7 +27,7 @@ class EndScreen
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (enterName.Length / 2), Console.WindowHeight / 2 + 5, enterName);
         string name = Console.ReadLine();
         Console.CursorVisible = false;
-        HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (pressKey.Length / 2), Console.WindowHeight / 2 + 6, pressKey);
+        HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - (pressKey.Length / 2), Console.WindowHeight / 2 + 10, pressKey);
         WriteInFile(c, name);
         HungryLizard.MainGame.PrintStringOnPosition((Console.WindowWidth / 2) - ("Highest Score: Made by  ".Length + Score.highestScore.Length) / 2, Console.WindowHeight - 2, "Highest Score: Made by  " + Score.highestScore);       
         ConsoleKeyInfo key = Console.ReadKey();

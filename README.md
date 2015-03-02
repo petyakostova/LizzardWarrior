@@ -6,7 +6,9 @@ There are three kind of flies:
 * Eating the Tiny Fly gives 10 points. 
 * The Horse Fly - 20 points.
 * The Fly Cece gives 30 points. 
+
 The bricks get 100 points from the current score as if the current points are less than 100, the Hungry Lizard dies. 
+
 All this is displayed during the game including the current points and remaining lives. 
 
 There are five levels of difficulty (with increasing speed): 

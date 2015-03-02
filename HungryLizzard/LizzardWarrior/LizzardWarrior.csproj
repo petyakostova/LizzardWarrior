@@ -81,7 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="LizzardWarrior_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="MainGame\Sounds\burp.wav">

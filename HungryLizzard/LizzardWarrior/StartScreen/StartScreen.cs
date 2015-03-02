@@ -44,6 +44,7 @@ class StartScreen
 |  _|  |_|  |  |  | | |_ ___ ___   |  |  |_|___ ___ ___ _| |
 |_  |   _   |  |  | |  _|  _| .'|  |  |__| |- _| .'|  _| . |
 |___|  |_|  |_____|_|_| |_| |__,|  |_____|_|___|__,|_| |___|";
+        
         Console.Write(select);
         while (true)
         {
@@ -69,6 +70,7 @@ class StartScreen
         }
         return levelSelected;
     }
+
     public static int DrawScreen()
     {
 
@@ -107,12 +109,13 @@ class StartScreen
             		                        
                                                         Catch the fly!";
         Console.Write(screen);
+
         for (int i = 0; i < Console.WindowWidth; i++)
         {
             HungryLizard.MainGame.PrintOnPosition(i, Console.WindowHeight - 1, '|', ConsoleColor.Black);
             Thread.Sleep(15);
         }
+
         return SelectLevel();
     }
 }
-

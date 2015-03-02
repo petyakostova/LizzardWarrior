@@ -8,8 +8,7 @@ using System.IO;
 class EndScreen
 {
     public static void DrawEnd(int c)
-    {
-        
+    {        
         HungryLizard.MainGame.InitConsole();
         string end = @"
                                  _____          __  __ ______    ______      ________ _____  _ 
@@ -40,6 +39,7 @@ class EndScreen
             Environment.Exit(0);
         }
     }
+
     public static void WriteInFile(int c, string name)
     {
         var dateTime = DateTime.Now;
@@ -50,4 +50,3 @@ class EndScreen
         Score.SortScores();
     }
 }
-

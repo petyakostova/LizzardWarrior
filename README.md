@@ -9,7 +9,4 @@
 - Petya Kostova ([https://github.com/petyakostova](https://github.com/petyakostova))
 - Plamen Bardarov ([https://github.com/plomba97](https://github.com/plomba97))
 
-**User Interface**
-//TODO
-
 **The Game is licensed under MIT License**

@@ -5,18 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 class Score
 {
     public static string highestScore = "still noone ;p";
+
     public static void SortScores()
     {
-
-
         Dictionary<string, int> scores = new Dictionary<string, int>();
+
         using (StreamReader file = new StreamReader(HungryLizard.MainGame.FileNameScores, true))
         {
             string line = string.Empty;
+
             while ((line = file.ReadLine()) != null)
             {
                 string[] currLine = line.Split('-');
@@ -32,8 +32,7 @@ class Score
             File.Delete(HungryLizard.MainGame.FileNameSortedScores);
         }
         using (StreamWriter file = new StreamWriter(HungryLizard.MainGame.FileNameSortedScores, true))
-        {
-            
+        {            
             foreach (var pair in sortedScores)
             {
                 file.WriteLine("{0} - {1}", pair.Key.Split('-').GetValue(0), pair.Value);
@@ -41,9 +40,7 @@ class Score
         }
         using (StreamReader file = new StreamReader(HungryLizard.MainGame.FileNameSortedScores, true))
         {
-
             highestScore = file.ReadLine();
         }
     }
 }
-

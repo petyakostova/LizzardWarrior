@@ -23,10 +23,10 @@ The interface is fairly intuitive. The User can make his choice of level by pres
 Implemented is a background melody throughout the game. There are some sound effects during the gameplay for eating a fly and contact with brick. In the end of the game sounds well-known melody of Super Mario.
 
 **Originally developed by contributors:**
-* Dimitar Gulenov [[dimitargulenov](https://github.com/dimitargulenov)]
-* Ivan Trendafilov [[wnkr](https://github.com/wnkr)]
-* Lyubomir Yonchev [[Moiraines](https://github.com/Moiraines)]
-* Petya Kostova [[petyakostova](https://github.com/petyakostova)]
-* Plamen Bardarov [[plomba97](https://github.com/plomba97)]
+* Dimitar Gulenov => [dimitargulenov](https://github.com/dimitargulenov)
+* Ivan Trendafilov => [wnkr](https://github.com/wnkr)
+* Lyubomir Yonchev => [Moiraines](https://github.com/Moiraines)
+* Petya Kostova => [petyakostova](https://github.com/petyakostova)
+* Plamen Bardarov => [plomba97](https://github.com/plomba97)
 
 **The Game is licensed under MIT License**

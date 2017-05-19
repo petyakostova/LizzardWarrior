@@ -1,4 +1,4 @@
-##Hungry Lizard
+## Hungry Lizard
 
 **Hungry Lizard** is a simple console game in which the main character (hero) – the Hungry Lizard – eats flies to gain points and has to avoid getting killed by losing all five of his lives or losing points by falling bricks. 
 
